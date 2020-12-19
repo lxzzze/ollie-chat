@@ -109,7 +109,7 @@ export default {
           room1: 0,
           room2: 0
         });
-        this.$router.push("/");
+        this.$router.push("/login");
         this.$store.commit("setTab", false);
       }
     },

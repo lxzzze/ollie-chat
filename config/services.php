@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'turingapi' => [
+        'url' => 'http://www.tuling123.com/openapi/api',
+        'key' => env('ROBOT_KEY')
+    ]
+
 ];

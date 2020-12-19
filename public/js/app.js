@@ -3218,7 +3218,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     room2: 0
                   });
 
-                  _this2.$router.push("/");
+                  _this2.$router.push("/login");
 
                   _this2.$store.commit("setTab", false);
                 }
@@ -3537,24 +3537,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (res.status === "success") {
                   Object(_components_Toast__WEBPACK_IMPORTED_MODULE_3__["default"])({
-                    content: res.data.message,
+                    content: '登录成功',
                     timeout: 1000,
                     background: "#2196f3"
                   });
 
                   _this.$store.commit("setUserInfo", {
                     type: "userid",
-                    value: res.data.user.email
+                    value: res.data.data.email
                   });
 
                   _this.$store.commit("setUserInfo", {
                     type: "token",
-                    value: res.data.user.api_token
+                    value: res.data.data.api_token
                   });
 
                   _this.$store.commit("setUserInfo", {
                     type: "src",
-                    value: res.data.user.avatar
+                    value: res.data.data.avatar
                   });
 
                   _this.getSvgModal.$root.$options.clear();
@@ -3570,7 +3570,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 } else {
                   Object(_components_Alert__WEBPACK_IMPORTED_MODULE_2__["default"])({
-                    content: res.data.message
+                    content: '请输入正确的账号密码'
                   });
                 }
 
@@ -3693,7 +3693,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 src = "//s3.qiufengh.com/avatar/".concat(Math.ceil(Math.random() * 272), ".jpeg");
 
                 if (!(name !== "" && password !== "")) {
-                  _context.next = 23;
+                  _context.next = 24;
                   break;
                 }
 
@@ -3709,29 +3709,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 res = _context.sent;
 
                 if (!(res.status === "success")) {
-                  _context.next = 19;
+                  _context.next = 20;
                   break;
                 }
 
                 Object(_components_Toast__WEBPACK_IMPORTED_MODULE_4__["default"])({
-                  content: res.data.message,
+                  content: '注册成功',
                   timeout: 1000,
                   background: "#2196f3"
                 });
+                console.log(res.data, 'data');
 
                 _this.$store.commit("setUserInfo", {
                   type: "userid",
-                  value: res.data.user.email
+                  value: res.data.data.email
                 });
 
                 _this.$store.commit("setUserInfo", {
                   type: "token",
-                  value: res.data.user.api_token
+                  value: res.data.data.api_token
                 });
 
                 _this.$store.commit("setUserInfo", {
                   type: "src",
-                  value: res.data.user.avatar
+                  value: res.data.data.avatar
                 });
 
                 _this.getSvgModal.$root.$options.clear();
@@ -3745,25 +3746,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _socket__WEBPACK_IMPORTED_MODULE_6__["default"].emit("login", {
                   name: name
                 });
-                _context.next = 21;
+                _context.next = 22;
                 break;
 
-              case 19:
-                _context.next = 21;
+              case 20:
+                _context.next = 22;
                 return Object(_components_Alert__WEBPACK_IMPORTED_MODULE_3__["default"])({
-                  content: res.data.message
+                  content: '注册失败'
                 });
 
-              case 21:
-                _context.next = 24;
+              case 22:
+                _context.next = 25;
                 break;
 
-              case 23:
+              case 24:
                 Object(_components_Alert__WEBPACK_IMPORTED_MODULE_3__["default"])({
                   content: "账号密码不能为空"
                 });
 
-              case 24:
+              case 25:
               case "end":
                 return _context.stop();
             }

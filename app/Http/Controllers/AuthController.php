@@ -19,40 +19,78 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         // 验证注册字段
-        Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6']
-        ])->validate();
+        $validator = Validator::make($request->all(), [
+            'name' => 'bail|required|email|max:100|unique:users',
+            'password' => 'bail|required|string|min:6',
+            'src' => 'bail|active_url|max:255'
+        ]);
+        if ($validator->fails()) {
+            return [
+                'errno' => 1,
+                'data' => $validator->errors()->first()
+            ];
+        }
 
         // 在数据库中创建用户并返回
-        return User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'api_token' => Str::random(60)
-        ]);
+        $email = $request->input('name');
+        try {
+            $user = User::create([
+                'name' => substr($email, 0, strpos($email, '@')),
+                'email' => $email,
+                'avatar' => $request->input('src'),
+                'password' => Hash::make($request->input('password')),
+                'api_token' => Str::random(60)
+            ]);
+            if ($user) {
+                return [
+                    'errno' => 0,
+                    'data' => $user
+                ];
+            } else {
+                return [
+                    'errno' => 1,
+                    'data' => '保存用户到数据库失败'
+                ];
+            }
+        } catch (\Exception $exception) {
+            return [
+                'errno' => 1,
+                'data' => '保存用户到数据库异常：' . $exception->getMessage()
+            ];
+        }
     }
 
     public function login(Request $request)
     {
         // 验证登录字段
-        $request->validate([
-            'email' => 'required|string',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|email|string',
             'password' => 'required|string',
         ]);
+        if ($validator->fails()) {
+            return [
+                'errno' => 1,
+                'data' => $validator->errors()->first()
+            ];
+        }
 
-        $email = $request->input('email');
+        $email = $request->input('name');
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
         // 用户校验成功则返回 Token 信息
         if ($user && Hash::check($password, $user->password)) {
             $user->api_token = Str::random(60);
             $user->save();
-            return response()->json(['user' => $user, 'success' => true]);
+            return [
+                'errno' => 0,
+                'data' => $user
+            ];
         }
 
-        return  response()->json(['success' => false]);
+        return [
+            'errno' => 1,
+            'data' => '用户名和密码不匹配，请重新输入'
+        ];
     }
 
     public function logout(Request $request)

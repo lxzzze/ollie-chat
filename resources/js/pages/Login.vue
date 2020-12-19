@@ -43,21 +43,21 @@ export default {
         const res = await this.$store.dispatch("loginSubmit", data);
         if (res.status === "success") {
           Toast({
-            content: res.data.message,
+            content: '登录成功',
             timeout: 1000,
             background: "#2196f3"
           });
           this.$store.commit("setUserInfo", {
               type: "userid",
-              value: res.data.user.email
+              value: res.data.data.email
           });
           this.$store.commit("setUserInfo", {
               type: "token",
-              value: res.data.user.api_token
+              value: res.data.data.api_token
           });
           this.$store.commit("setUserInfo", {
             type: "src",
-            value: res.data.user.avatar
+            value: res.data.data.avatar
           });
           this.getSvgModal.$root.$options.clear();
           this.$store.commit("setSvgModal", null);
@@ -65,7 +65,7 @@ export default {
           socket.emit("login", { name });
         } else {
           Alert({
-            content: res.data.message
+            content: '请输入正确的账号密码'
           });
         }
         document.form2.reset();
