@@ -2684,6 +2684,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -2752,8 +2757,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }
 
               _this.noticeVersion = res.data.version;
+              console.log(_this.getInfos, 'getInfos');
 
-            case 10:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -2888,6 +2894,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
+    printUsersNum: function printUsersNum() {
+      console.log(this.getUsers, 'getUsers');
+      console.log(Object.keys(this.getUsers).length, 'length');
+    },
     handleNotice: function handleNotice() {
       this.noticeBar = !this.noticeBar;
       Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_4__["setItem"])('notice', {
@@ -31371,13 +31381,17 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "center" }, [
-                  _vm._v(
-                    "\n          聊天(" +
-                      _vm._s(Object.keys(_vm.getUsers).length) +
-                      ")\n        "
-                  )
-                ]),
+                _c(
+                  "div",
+                  { staticClass: "center", on: { click: _vm.printUsersNum } },
+                  [
+                    _vm._v(
+                      "\n                        聊天(" +
+                        _vm._s(Object.keys(_vm.getUsers).length) +
+                        ")\n                    "
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "mu-button",
@@ -31898,45 +31912,7 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("mu-divider"),
-        _vm._v(" "),
-        _c(
-          "mu-list",
-          [
-            _c("mu-sub-header", [_vm._v("客服")]),
-            _vm._v(" "),
-            _c(
-              "mu-list-item",
-              {
-                attrs: { avatar: "", button: "", ripple: false },
-                on: {
-                  click: function($event) {
-                    return _vm.chatRobot()
-                  }
-                }
-              },
-              [
-                _c(
-                  "mu-list-item-action",
-                  [_c("mu-avatar", [_c("img", { attrs: { src: _vm.robot } })])],
-                  1
-                ),
-                _vm._v(" "),
-                _c("mu-list-item-title", [
-                  _vm._v("客服大白(微信群，作者联系方式，找我)")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "mu-list-item-action",
-                  [_c("mu-icon", { attrs: { value: "chat_bubble" } })],
-                  1
-                )
-              ],
-              1
-            )
-          ],
-          1
-        )
+        _c("mu-divider")
       ],
       1
     )
@@ -50202,6 +50178,7 @@ _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('disconnect', function () {
 });
 _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('message', function (obj) {
   _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('addRoomDetailInfos', [obj]);
+  console.log(obj, 'message');
 
   if (Notification.permission === "granted") {
     popNotice(obj);

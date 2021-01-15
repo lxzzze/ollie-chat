@@ -68,22 +68,21 @@ WebsocketProxy::on('room', function (WebSocket $websocket, $data) {
         $room = Count::$ROOMLIST[$roomId];
         $websocket->join($room);
         // 打印日志
-        Log::info($user->name . '进入房间：' . $room);
         // 更新在线用户信息
         $roomUsersKey = 'online_users_' . $room;
-        $onelineUsers = Cache::get($roomUsersKey);
+        $onlineUsers = Cache::get($roomUsersKey);
         $user->src = $user->avatar;
-        if ($onelineUsers) {
-            $onelineUsers[$user->id] = $user;
-            Cache::forever($roomUsersKey, $onelineUsers);
+        if ($onlineUsers) {
+            $onlineUsers[$user->id] = $user;
+            Cache::forever($roomUsersKey, $onlineUsers);
         } else {
-            $onelineUsers = [
+            $onlineUsers = [
                 $user->id => $user
             ];
-            Cache::forever($roomUsersKey, $onelineUsers);
+            Cache::forever($roomUsersKey, $onlineUsers);
         }
         // 广播消息给房间内所有用户
-        $websocket->to($room)->emit('room', $onelineUsers);
+        $websocket->to($room)->emit('room', $onlineUsers);
     } else {
         $websocket->emit('login', '登录后才能进入聊天室');
     }
@@ -102,13 +101,12 @@ function roomout(WebSocket $websocket, $data) {
         $room = Count::$ROOMLIST[$roomId];
         // 更新在线用户信息
         $roomUsersKey = 'online_users_' . $room;
-        $onelineUsers = Cache::get($roomUsersKey);
-        if (!empty($onelineUsers[$user->id])) {
-            unset($onelineUsers[$user->id]);
-            Cache::forever($roomUsersKey, $onelineUsers);
+        $onlineUsers = Cache::get($roomUsersKey);
+        if (!empty($onlineUsers[$user->id])) {
+            unset($onlineUsers[$user->id]);
+            Cache::forever($roomUsersKey, $onlineUsers);
         }
-        $websocket->to($room)->emit('roomout', $onelineUsers);
-        Log::info($user->name . '退出房间: ' . $room);
+        $websocket->to($room)->emit('roomout', $onlineUsers);
         $websocket->leave([$room]);
     } else {
         $websocket->emit('login', '登录后才能进入聊天室');
@@ -126,7 +124,6 @@ WebsocketProxy::on('message', function (WebSocket $websocket, $data) {
             return;
         }
         // 记录日志
-        Log::info($user->name . '在房间' . $roomId . '中发布消息: ' . $msg);
         // 将消息保存到数据库
         $message = new Message();
         $message->user_id = $user->id;

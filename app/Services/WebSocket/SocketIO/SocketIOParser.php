@@ -18,10 +18,8 @@ class SocketIOParser extends Parser
 
     /**
      * Encode output payload for websocket push.
-     *
      * @param string $event
      * @param mixed $data
-     *
      * @return mixed
      */
     public function encode(string $event, $data)

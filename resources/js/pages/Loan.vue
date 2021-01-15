@@ -27,20 +27,20 @@
                 </mu-list-item>
             </mu-list>
             <mu-divider></mu-divider>
-            <mu-list>
-                <mu-sub-header>客服</mu-sub-header>
-                <mu-list-item avatar button :ripple="false" @click="chatRobot()">
-                    <mu-list-item-action>
-                        <mu-avatar>
-                            <img :src="robot">
-                        </mu-avatar>
-                    </mu-list-item-action>
-                    <mu-list-item-title>客服大白(微信群，作者联系方式，找我)</mu-list-item-title>
-                    <mu-list-item-action>
-                        <mu-icon value="chat_bubble"></mu-icon>
-                    </mu-list-item-action>
-                </mu-list-item>
-            </mu-list>
+<!--            <mu-list>-->
+<!--                <mu-sub-header>客服</mu-sub-header>-->
+<!--                <mu-list-item avatar button :ripple="false" @click="chatRobot()">-->
+<!--                    <mu-list-item-action>-->
+<!--                        <mu-avatar>-->
+<!--                            <img :src="robot">-->
+<!--                        </mu-avatar>-->
+<!--                    </mu-list-item-action>-->
+<!--                    <mu-list-item-title>客服大白(微信群，作者联系方式，找我)</mu-list-item-title>-->
+<!--                    <mu-list-item-action>-->
+<!--                        <mu-icon value="chat_bubble"></mu-icon>-->
+<!--                    </mu-list-item-action>-->
+<!--                </mu-list-item>-->
+<!--            </mu-list>-->
         </div>
     </div>
 </template>

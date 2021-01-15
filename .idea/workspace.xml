@@ -3,8 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b722e5d2-5f18-453c-aee5-67e5de4ee0b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Message.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MessageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MessageController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/WebSocket/SocketIO/SocketIOParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/WebSocket/SocketIO/SocketIOParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/WebSocket/WebSocket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/WebSocket/WebSocket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/WebSocket/WebSocketHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/WebSocket/WebSocketHandler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/laravels.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/laravels.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/pages/Chat.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/pages/Chat.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/pages/Loan.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/pages/Loan.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/websocket.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/websocket.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/laravels.conf" beforeDir="false" afterPath="$PROJECT_DIR$/storage/laravels.conf" afterDir="false" />
@@ -163,6 +170,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -213,7 +221,11 @@
       <workItem from="1608285609356" duration="1682000" />
       <workItem from="1608341355700" duration="5716000" />
       <workItem from="1608689702802" duration="12237000" />
-      <workItem from="1609223707193" duration="255000" />
+      <workItem from="1609223707193" duration="2338000" />
+      <workItem from="1609291576408" duration="3402000" />
+      <workItem from="1609378461410" duration="14380000" />
+      <workItem from="1610537160115" duration="2283000" />
+      <workItem from="1610682131656" duration="8677000" />
     </task>
     <servers />
   </component>
@@ -229,14 +241,14 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="781" y="442" key="NewPhpFileDialog/0.23.1920.977@0.23.1920.977" timestamp="1608342692226" />
-    <state x="639" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1608098981961">
+    <state x="639" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1609291578224">
       <screen x="0" y="23" width="1920" height="977" />
     </state>
-    <state x="639" y="344" key="com.intellij.ide.util.TipDialog/0.23.1920.977@0.23.1920.977" timestamp="1608098981961" />
-    <state x="626" y="302" width="667" height="476" key="find.popup" timestamp="1608723458921">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="639" y="344" key="com.intellij.ide.util.TipDialog/0.23.1920.977@0.23.1920.977" timestamp="1609291578224" />
+    <state x="626" y="296" width="667" height="476" key="find.popup" timestamp="1610700118341">
+      <screen x="0" y="23" width="1920" height="977" />
     </state>
-    <state x="626" y="302" width="667" height="476" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1608723458921" />
-    <state x="626" y="296" width="667" height="476" key="find.popup/0.23.1920.977@0.23.1920.977" timestamp="1608364577614" />
+    <state x="626" y="302" width="667" height="476" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1610693357241" />
+    <state x="626" y="296" width="667" height="476" key="find.popup/0.23.1920.977@0.23.1920.977" timestamp="1610700118341" />
   </component>
 </project>

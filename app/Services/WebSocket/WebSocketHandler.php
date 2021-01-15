@@ -42,7 +42,6 @@ class WebSocketHandler implements WebSocketHandlerInterface
             $server->push($request->fd, $initPayload);
             $server->push($request->fd, $connectPayload);
         }
-        Log::info('WebSocket 连接建立:' . $request->fd);
         if ($this->websocket->eventExists('connect')) {
             $this->websocket->call('connect', $request);
         }
@@ -52,7 +51,6 @@ class WebSocketHandler implements WebSocketHandlerInterface
     public function onMessage(Server $server, Frame $frame)
     {
         // $frame->fd 是客户端 id，$frame->data 是客户端发送的数据
-        Log::info("从 {$frame->fd} 接收到的数据: {$frame->data}");
         if ($this->parser->execute($server, $frame)) {
             return;
         }
@@ -70,7 +68,6 @@ class WebSocketHandler implements WebSocketHandlerInterface
     // 连接关闭时触发
     public function onClose(Server $server, $fd, $reactorId)
     {
-        Log::info('WebSocket 连接关闭:' . $fd);
         $this->websocket->setSender($fd);
         if ($this->websocket->eventExists('disconnect')) {
             $this->websocket->call('disconnect', '连接关闭');

@@ -111,7 +111,6 @@ class WebSocket
     public function join($rooms): self
     {
         $rooms = is_string($rooms) || is_integer($rooms) ? func_get_args() : $rooms;
-
         $this->room->add($this->sender, $rooms);
 
         return $this;
