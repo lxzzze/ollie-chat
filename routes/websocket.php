@@ -223,7 +223,6 @@ WebsocketProxy::on('message', function (WebSocket $websocket, $data) {
             foreach ($all as $user_id){
                 $fd = Redis::get('chat_userId_'.$user_id);
                 if ($fd){
-                    $websocket->to($fd)->emit('test','test');
                     $websocket->to($fd)->emit('message',$messageData);
                 }
             }

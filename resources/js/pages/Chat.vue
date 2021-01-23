@@ -162,7 +162,6 @@
         },
         async created() {
             this.token = getItem('token');
-            console.log(this.token,'token666');
             const roomId = queryString(window.location.href, 'roomId');
             this.roomid = roomId;
             if (!roomId) {
@@ -211,15 +210,11 @@
                 };
                 this.isloading = true;
                 await this.$store.dispatch('getAllMessHistory', data);
-                await Axios.get('/history/message', {params: data}).then(res => {
-                    this.room_detail.infos = res.data.data.data;
-                    console.log(this.room_detail.infos,'message');
-                })
                 this.isloading = false;
                 loading.hide();
-                // this.$nextTick(() => {
-                //     this.container.scrollTop = 10000;
-                // });
+                this.$nextTick(() => {
+                    this.container.scrollTop = 10000;
+                });
             }, 500);
 
             this.container.addEventListener('scroll', debounce(async (e) => {
@@ -233,14 +228,6 @@
                     };
                     this.isloading = true;
                     await this.$store.dispatch('getAllMessHistory', data);
-                    await Axios.get('/history/message', {params: data}).then(res => {
-                        let message = res.data.data.data;
-                        message.reverse().forEach((item,index) => {
-                            this.room_detail.infos.unshift(item);
-                        });
-                        console.log(this.room_detail,'room_detail');
-                        // this.room_detail.infos.push(res.data.data.data);
-                    })
                     this.isloading = false;
                 }
             }, 50));

@@ -2832,21 +2832,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         return _this2.$store.dispatch('getAllMessHistory', data);
 
                       case 4:
-                        _context2.next = 6;
-                        return _api_axios__WEBPACK_IMPORTED_MODULE_14__["default"].get('/history/message', {
-                          params: data
-                        }).then(function (res) {
-                          _this2.room_detail.infos = res.data.data.data;
-                          console.log(_this2.room_detail.infos, 'message');
+                        _this2.isloading = false;
+                        _components_loading__WEBPACK_IMPORTED_MODULE_7__["default"].hide();
+
+                        _this2.$nextTick(function () {
+                          _this2.container.scrollTop = 10000;
                         });
 
-                      case 6:
-                        _this2.isloading = false;
-                        _components_loading__WEBPACK_IMPORTED_MODULE_7__["default"].hide(); // this.$nextTick(() => {
-                        //     this.container.scrollTop = 10000;
-                        // });
-
-                      case 8:
+                      case 7:
                       case "end":
                         return _context2.stop();
                     }
@@ -2862,7 +2855,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       switch (_context3.prev = _context3.next) {
                         case 0:
                           if (!(e.target.scrollTop >= 0 && e.target.scrollTop < 50)) {
-                            _context3.next = 9;
+                            _context3.next = 7;
                             break;
                           }
 
@@ -2879,21 +2872,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                           return _this2.$store.dispatch('getAllMessHistory', data);
 
                         case 6:
-                          _context3.next = 8;
-                          return _api_axios__WEBPACK_IMPORTED_MODULE_14__["default"].get('/history/message', {
-                            params: data
-                          }).then(function (res) {
-                            var message = res.data.data.data;
-                            message.reverse().forEach(function (item, index) {
-                              _this2.room_detail.infos.unshift(item);
-                            });
-                            console.log(_this2.room_detail, 'room_detail'); // this.room_detail.infos.push(res.data.data.data);
-                          });
-
-                        case 8:
                           _this2.isloading = false;
 
-                        case 9:
+                        case 7:
                         case "end":
                           return _context3.stop();
                       }
@@ -50137,7 +50118,6 @@ _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('connect', /*#__PURE__*/_asyn
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          console.log('websocket connected: ' + _socket__WEBPACK_IMPORTED_MODULE_5__["default"].connected);
           roomId = Object(_utils_queryString__WEBPACK_IMPORTED_MODULE_6__["queryString"])(window.location.href, 'roomId');
           userId = _store__WEBPACK_IMPORTED_MODULE_4__["default"].state.userInfo.userid;
           token = _store__WEBPACK_IMPORTED_MODULE_4__["default"].state.userInfo.token;
@@ -50149,46 +50129,25 @@ _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('connect', /*#__PURE__*/_asyn
             });
           }
 
-          if (!roomId) {
-            _context.next = 19;
-            break;
+          if (roomId) {
+            obj = {
+              name: userId,
+              src: _store__WEBPACK_IMPORTED_MODULE_4__["default"].state.userInfo.src,
+              roomid: roomId
+            };
+            _socket__WEBPACK_IMPORTED_MODULE_5__["default"].emit('room', obj); // if (store.state.isDiscount) {
+            //     await store.commit('setRoomDetailInfos');
+            //     await store.commit('setCurrent', 1);
+            //     await store.commit('setDiscount', false);
+            //     await store.commit('setTotal', 0);
+            //     await store.dispatch('getAllMessHistory', {
+            //         current: 1,
+            //         roomid: roomId
+            //     });
+            // }
           }
 
-          obj = {
-            name: userId,
-            src: _store__WEBPACK_IMPORTED_MODULE_4__["default"].state.userInfo.src,
-            roomid: roomId
-          };
-          _socket__WEBPACK_IMPORTED_MODULE_5__["default"].emit('room', obj);
-
-          if (!_store__WEBPACK_IMPORTED_MODULE_4__["default"].state.isDiscount) {
-            _context.next = 19;
-            break;
-          }
-
-          _context.next = 11;
-          return _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('setRoomDetailInfos');
-
-        case 11:
-          _context.next = 13;
-          return _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('setCurrent', 1);
-
-        case 13:
-          _context.next = 15;
-          return _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('setDiscount', false);
-
-        case 15:
-          _context.next = 17;
-          return _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('setTotal', 0);
-
-        case 17:
-          _context.next = 19;
-          return _store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('getAllMessHistory', {
-            current: 1,
-            roomid: roomId
-          });
-
-        case 19:
+        case 5:
         case "end":
           return _context.stop();
       }
