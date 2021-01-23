@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.5",
         "overtrue/laravel-lang": "~3.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "workerman/workerman": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

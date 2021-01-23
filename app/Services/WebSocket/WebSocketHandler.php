@@ -21,7 +21,9 @@ class WebSocketHandler implements WebSocketHandlerInterface
 
     public function __construct()
     {
+        //App\Services\WebSocket\WebSocket
         $this->websocket = app('swoole.websocket');
+        //App\Services\WebSocket\SocketIO\SocketIOParser
         $this->parser = app('swoole.parser');
     }
 
@@ -39,10 +41,13 @@ class WebSocketHandler implements WebSocketHandlerInterface
             ]);
             $initPayload = Packet::OPEN . $payload;
             $connectPayload = Packet::MESSAGE . Packet::CONNECT;
+            //返回这种形式0{"sid":"NjAwOGU5YzgzZTc4MA==","upgrades":[],"pingInterval":600000,"pingTimeout":60000}
             $server->push($request->fd, $initPayload);
+            //返回40
             $server->push($request->fd, $connectPayload);
         }
         if ($this->websocket->eventExists('connect')) {
+            //返回42["connect","欢迎访问聊天室"]
             $this->websocket->call('connect', $request);
         }
     }
@@ -56,6 +61,7 @@ class WebSocketHandler implements WebSocketHandlerInterface
         }
         $payload = $this->parser->decode($frame);
         ['event' => $event, 'data' => $data] = $payload;
+        //重置数据并设置发送fd
         $this->websocket->reset(true)->setSender($frame->fd);
         if ($this->websocket->eventExists($event)) {
             $this->websocket->call($event, $data);

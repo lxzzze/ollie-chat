@@ -3,6 +3,7 @@ namespace App\Services\WebSocket;
 
 use App\Services\Websocket\Rooms\RoomContract;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Swoole\WebSocket\Server;
 
 class WebSocket
@@ -111,6 +112,7 @@ class WebSocket
     public function join($rooms): self
     {
         $rooms = is_string($rooms) || is_integer($rooms) ? func_get_args() : $rooms;
+        //ws的连接id和房间id
         $this->room->add($this->sender, $rooms);
 
         return $this;
@@ -144,7 +146,6 @@ class WebSocket
     {
         $fds = $this->getFds();
         $assigned = ! empty($this->to);
-
         // if no fds are found, but rooms are assigned
         // that means trying to emit to a non-existing room
         // skip it directly instead of pushing to a task queue
@@ -160,10 +161,10 @@ class WebSocket
             'event'     => $event,
             'message'   => $data,
         ];
-
         $server = app('swoole');
         $pusher = Pusher::make($payload, $server);
         $parser = app('swoole.parser');
+
         $pusher->push($parser->encode($pusher->getEvent(), $pusher->getMessage()));
 
         $this->reset();

@@ -33,6 +33,7 @@ trait Authenticatable
      */
     public function loginUsingId($userId)
     {
+        //拼接uid_+用户id,如uid_2
         return $this->join(static::USER_PREFIX . $userId);
     }
 
@@ -66,7 +67,6 @@ trait Authenticatable
 
             return $user->getAuthIdentifier();
         }, $users);
-
         return $this->toUserId($userIds);
     }
 

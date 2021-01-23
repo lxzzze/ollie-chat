@@ -2558,6 +2558,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(timers__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _utils_ios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../utils/ios */ "./resources/js/utils/ios.js");
 /* harmony import */ var _socket__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../socket */ "./resources/js/socket.js");
+/* harmony import */ var _api_axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../api/axios */ "./resources/js/api/axios.js");
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -2702,6 +2703,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var notice = Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_4__["getItem"])('notice') || {};
@@ -2717,7 +2719,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       openSimple: false,
       noticeBar: !!noticeBar,
       noticeList: [],
-      noticeVersion: noticeVersion || '20181222'
+      noticeVersion: noticeVersion || '20181222',
+      token: null,
+      message: [],
+      room_detail: {
+        id: '',
+        users: {},
+        infos: [],
+        current: 1,
+        total: 0
+      }
     };
   },
   created: function created() {
@@ -2729,6 +2740,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              _this.token = Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_4__["getItem"])('token');
+              console.log(_this.token, 'token666');
               roomId = Object(_utils_queryString__WEBPACK_IMPORTED_MODULE_5__["queryString"])(window.location.href, 'roomId');
               _this.roomid = roomId;
 
@@ -2745,10 +2758,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
               }
 
-              _context.next = 6;
+              _context.next = 8;
               return _api_server__WEBPACK_IMPORTED_MODULE_10__["default"].getNotice();
 
-            case 6:
+            case 8:
               res = _context.sent;
               _this.noticeList = res.data.noticeList;
 
@@ -2757,9 +2770,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }
 
               _this.noticeVersion = res.data.version;
-              console.log(_this.getInfos, 'getInfos');
 
-            case 11:
+            case 12:
             case "end":
               return _context.stop();
           }
@@ -2793,7 +2805,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 name: _this2.userid,
                 src: _this2.src,
                 roomid: _this2.roomid,
-                api_token: _this2.auth_token
+                api_token: _this2.token
               };
               _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('room', obj);
               _socket__WEBPACK_IMPORTED_MODULE_13__["default"].on('room', function (obj) {
@@ -2811,23 +2823,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       case 0:
                         data = {
                           total: +_this2.getTotal,
-                          current: +_this2.current,
+                          current: _this2.current,
                           roomid: _this2.roomid,
-                          api_token: _this2.auth_token
+                          api_token: _this2.token
                         };
                         _this2.isloading = true;
                         _context2.next = 4;
                         return _this2.$store.dispatch('getAllMessHistory', data);
 
                       case 4:
-                        _this2.isloading = false;
-                        _components_loading__WEBPACK_IMPORTED_MODULE_7__["default"].hide();
-
-                        _this2.$nextTick(function () {
-                          _this2.container.scrollTop = 10000;
+                        _context2.next = 6;
+                        return _api_axios__WEBPACK_IMPORTED_MODULE_14__["default"].get('/history/message', {
+                          params: data
+                        }).then(function (res) {
+                          _this2.room_detail.infos = res.data.data.data;
+                          console.log(_this2.room_detail.infos, 'message');
                         });
 
-                      case 7:
+                      case 6:
+                        _this2.isloading = false;
+                        _components_loading__WEBPACK_IMPORTED_MODULE_7__["default"].hide(); // this.$nextTick(() => {
+                        //     this.container.scrollTop = 10000;
+                        // });
+
+                      case 8:
                       case "end":
                         return _context2.stop();
                     }
@@ -2843,26 +2862,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       switch (_context3.prev = _context3.next) {
                         case 0:
                           if (!(e.target.scrollTop >= 0 && e.target.scrollTop < 50)) {
-                            _context3.next = 7;
+                            _context3.next = 9;
                             break;
                           }
 
-                          _this2.$store.commit('setCurrent', +_this2.getCurrent + 1);
+                          _this2.$store.commit('setCurrent', _this2.getCurrent + 1);
 
                           data = {
                             total: +_this2.getTotal,
-                            current: +_this2.getCurrent,
+                            current: _this2.getCurrent,
                             roomid: _this2.roomid,
-                            api_token: _this2.auth_token
+                            api_token: _this2.token
                           };
                           _this2.isloading = true;
                           _context3.next = 6;
                           return _this2.$store.dispatch('getAllMessHistory', data);
 
                         case 6:
+                          _context3.next = 8;
+                          return _api_axios__WEBPACK_IMPORTED_MODULE_14__["default"].get('/history/message', {
+                            params: data
+                          }).then(function (res) {
+                            var message = res.data.data.data;
+                            message.reverse().forEach(function (item, index) {
+                              _this2.room_detail.infos.unshift(item);
+                            });
+                            console.log(_this2.room_detail, 'room_detail'); // this.room_detail.infos.push(res.data.data.data);
+                          });
+
+                        case 8:
                           _this2.isloading = false;
 
-                        case 7:
+                        case 9:
                         case "end":
                           return _context3.stop();
                       }
@@ -2894,10 +2925,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    printUsersNum: function printUsersNum() {
-      console.log(this.getUsers, 'getUsers');
-      console.log(Object.keys(this.getUsers).length, 'length');
-    },
     handleNotice: function handleNotice() {
       this.noticeBar = !this.noticeBar;
       Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_4__["setItem"])('notice', {
@@ -2926,7 +2953,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var obj = {
         name: this.userid,
         roomid: this.roomid,
-        api_token: this.auth_token
+        api_token: this.token
       };
       _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('roomout', obj);
       this.$router.goBack();
@@ -2944,7 +2971,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (file1) {
         var formdata = new window.FormData();
         formdata.append('file', file1);
-        formdata.append('api_token', that.auth_token);
+        formdata.append('api_token', that.token);
         formdata.append('roomid', that.roomid);
         this.$store.dispatch('uploadImg', formdata);
         var fr = new window.FileReader();
@@ -2957,7 +2984,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             msg: '',
             roomid: that.roomid,
             time: new Date(),
-            api_token: that.auth_token
+            api_token: that.token
           };
           _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('message', obj);
         };
@@ -2993,7 +3020,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           msg: msg,
           roomid: this.roomid,
           time: new Date(),
-          api_token: this.auth_token
+          api_token: this.token
         }; // 传递消息信息
 
         _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('message', obj);
@@ -31381,17 +31408,13 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "center", on: { click: _vm.printUsersNum } },
-                  [
-                    _vm._v(
-                      "\n                        聊天(" +
-                        _vm._s(Object.keys(_vm.getUsers).length) +
-                        ")\n                    "
-                    )
-                  ]
-                ),
+                _c("div", { staticClass: "center" }, [
+                  _vm._v(
+                    "\n                        聊天(" +
+                      _vm._s(Object.keys(_vm.getUsers).length) +
+                      ")\n                    "
+                  )
+                ]),
                 _vm._v(" "),
                 _c(
                   "mu-button",
@@ -50173,12 +50196,10 @@ _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('connect', /*#__PURE__*/_asyn
   }, _callee);
 })));
 _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('disconnect', function () {
-  console.log('websocket disconnected:' + _socket__WEBPACK_IMPORTED_MODULE_5__["default"].disconnected);
   _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('setDiscount', true);
 });
 _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('message', function (obj) {
   _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('addRoomDetailInfos', [obj]);
-  console.log(obj, 'message');
 
   if (Notification.permission === "granted") {
     popNotice(obj);
@@ -52057,9 +52078,20 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       state.svgmodal = data;
     },
     addRoomDetailInfos: function addRoomDetailInfos(state, data) {
-      var _state$roomdetail$inf;
+      var last = state.roomdetail.infos.slice(-1);
 
-      (_state$roomdetail$inf = state.roomdetail.infos).push.apply(_state$roomdetail$inf, _toConsumableArray(data));
+      if (last) {
+        if (last[0]['time'] != data[0]['time'] && (last[0]['msg'] != data[0]['msg'] || last[0]['userid'] != data[0]['userid'])) {
+          var _state$roomdetail$inf;
+
+          (_state$roomdetail$inf = state.roomdetail.infos).push.apply(_state$roomdetail$inf, _toConsumableArray(data));
+        }
+      } else {
+        var _state$roomdetail$inf2;
+
+        (_state$roomdetail$inf2 = state.roomdetail.infos).push.apply(_state$roomdetail$inf2, _toConsumableArray(data));
+      } // state.roomdetail.infos.push(...data);
+
     },
     addRoomDefatilInfosHis: function addRoomDefatilInfosHis(state, data) {
       var list = state.roomdetail.infos;

@@ -15,7 +15,7 @@
                     <mu-button icon slot="left" @click="goback">
                         <mu-icon value="chevron_left"></mu-icon>
                     </mu-button>
-                    <div class="center" @click="printUsersNum">
+                    <div class="center">
                         聊天({{Object.keys(getUsers).length}})
                     </div>
                     <mu-button icon slot="right" @click="openSimpleDialog">
@@ -131,6 +131,8 @@
     import {setTimeout} from 'timers';
     import ios from '../utils/ios';
     import socket from '../socket';
+    import Axios from '../api/axios';
+
 
     export default {
         data() {
@@ -146,10 +148,21 @@
                 openSimple: false,
                 noticeBar: !!noticeBar,
                 noticeList: [],
-                noticeVersion: noticeVersion || '20181222'
+                noticeVersion: noticeVersion || '20181222',
+                token:null,
+                message:[],
+                room_detail: {
+                    id: '',
+                    users: {},
+                    infos: [],
+                    current: 1,
+                    total: 0
+                },
             };
         },
         async created() {
+            this.token = getItem('token');
+            console.log(this.token,'token666');
             const roomId = queryString(window.location.href, 'roomId');
             this.roomid = roomId;
             if (!roomId) {
@@ -165,6 +178,7 @@
                 this.noticeBar = false;
             }
             this.noticeVersion = res.data.version;
+
         },
         async mounted() {
             // 微信 回弹 bug
@@ -178,7 +192,7 @@
                 name: this.userid,
                 src: this.src,
                 roomid: this.roomid,
-                api_token: this.auth_token
+                api_token: this.token
             };
             socket.emit('room', obj);
             socket.on('room', function (obj) {
@@ -191,30 +205,42 @@
             setTimeout(async () => {
                 const data = {
                     total: +this.getTotal,
-                    current: +this.current,
+                    current: this.current,
                     roomid: this.roomid,
-                    api_token: this.auth_token
+                    api_token: this.token
                 };
                 this.isloading = true;
                 await this.$store.dispatch('getAllMessHistory', data);
+                await Axios.get('/history/message', {params: data}).then(res => {
+                    this.room_detail.infos = res.data.data.data;
+                    console.log(this.room_detail.infos,'message');
+                })
                 this.isloading = false;
                 loading.hide();
-                this.$nextTick(() => {
-                    this.container.scrollTop = 10000;
-                });
+                // this.$nextTick(() => {
+                //     this.container.scrollTop = 10000;
+                // });
             }, 500);
 
             this.container.addEventListener('scroll', debounce(async (e) => {
                 if (e.target.scrollTop >= 0 && e.target.scrollTop < 50) {
-                    this.$store.commit('setCurrent', +this.getCurrent + 1);
+                    this.$store.commit('setCurrent', this.getCurrent + 1);
                     const data = {
                         total: +this.getTotal,
-                        current: +this.getCurrent,
+                        current: this.getCurrent,
                         roomid: this.roomid,
-                        api_token: this.auth_token
+                        api_token: this.token
                     };
                     this.isloading = true;
                     await this.$store.dispatch('getAllMessHistory', data);
+                    await Axios.get('/history/message', {params: data}).then(res => {
+                        let message = res.data.data.data;
+                        message.reverse().forEach((item,index) => {
+                            this.room_detail.infos.unshift(item);
+                        });
+                        console.log(this.room_detail,'room_detail');
+                        // this.room_detail.infos.push(res.data.data.data);
+                    })
                     this.isloading = false;
                 }
             }, 50));
@@ -228,10 +254,6 @@
             });
         },
         methods: {
-            printUsersNum(){
-                console.log(this.getUsers,'getUsers');
-                console.log(Object.keys(this.getUsers).length,'length');
-            },
             handleNotice() {
                 this.noticeBar = !this.noticeBar;
                 setItem('notice', {
@@ -260,7 +282,7 @@
                 const obj = {
                     name: this.userid,
                     roomid: this.roomid,
-                    api_token: this.auth_token,
+                    api_token: this.token,
                 };
                 socket.emit('roomout', obj);
                 this.$router.goBack();
@@ -276,7 +298,7 @@
                 if (file1) {
                     const formdata = new window.FormData();
                     formdata.append('file', file1);
-                    formdata.append('api_token', that.auth_token);
+                    formdata.append('api_token', that.token);
                     formdata.append('roomid', that.roomid);
                     this.$store.dispatch('uploadImg', formdata);
                     const fr = new window.FileReader();
@@ -288,7 +310,7 @@
                             msg: '',
                             roomid: that.roomid,
                             time: new Date(),
-                            api_token: that.auth_token
+                            api_token: that.token
                         };
                         socket.emit('message', obj);
                     };
@@ -322,7 +344,7 @@
                         msg,
                         roomid: this.roomid,
                         time: new Date(),
-                        api_token: this.auth_token
+                        api_token: this.token
                     };
                     // 传递消息信息
                     socket.emit('message', obj);

@@ -114,7 +114,15 @@ const store = new Vuex.Store({
             state.svgmodal = data;
         },
         addRoomDetailInfos(state, data) {
-            state.roomdetail.infos.push(...data);
+            let last = state.roomdetail.infos.slice(-1);
+            if (last){
+                if ((last[0]['time'] != data[0]['time']) && (last[0]['msg'] != data[0]['msg'] || last[0]['userid'] != data[0]['userid'])){
+                    state.roomdetail.infos.push(...data);
+                }
+            }else {
+                state.roomdetail.infos.push(...data);
+            }
+            // state.roomdetail.infos.push(...data);
         },
         addRoomDefatilInfosHis(state, data) {
             const list = state.roomdetail.infos;

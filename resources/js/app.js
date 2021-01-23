@@ -70,7 +70,6 @@ socket.on('connect', async () => {
 });
 
 socket.on('disconnect', () => {
-    console.log('websocket disconnected:' + socket.disconnected);
     store.commit('setDiscount', true);
 });
 

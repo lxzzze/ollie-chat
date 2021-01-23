@@ -21,7 +21,6 @@ class HeartbeatStrategy
         $packet = $frame->data;
         $packetLength = strlen($packet);
         $payload = '';
-
         if (Packet::getPayload($packet)) {
             return false;
         }
