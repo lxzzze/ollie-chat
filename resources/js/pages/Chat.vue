@@ -287,24 +287,42 @@
                     formdata.append('file', file1);
                     formdata.append('api_token', that.token);
                     formdata.append('roomid', that.roomid);
-                    this.$store.dispatch('uploadImg', formdata);
-                    const fr = new window.FileReader();
-                    fr.onload = function () {
-                        const obj = {
-                            username: that.userid,
-                            src: that.src,
-                            img: fr.result,
-                            msg: '',
-                            roomid: that.roomid,
-                            time: new Date(),
-                            api_token: that.token
-                        };
-                        socket.emit('message', obj);
-                    };
-                    fr.readAsDataURL(file1);
-                    this.$nextTick(() => {
-                        this.container.scrollTop = 10000;
-                    });
+                    //上传图片
+                    Axios.post('/file/uploadimg', formdata, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+                        .then((res) => {
+                            if (res.data.data.errno == 200){
+                                let img = res.data.data.data.img;
+                                const obj = {
+                                    username: that.userid,
+                                    src: that.src,
+                                    img: img,
+                                    msg: '',
+                                    roomid: that.roomid,
+                                    time: new Date(),
+                                    api_token: that.token
+                                };
+                                socket.emit('message', obj);
+                                this.$nextTick(() => {
+                                    this.container.scrollTop = 10000;
+                                });
+                            }
+                        });
+                    // this.$store.dispatch('uploadImg', formdata);
+                    // const fr = new window.FileReader();
+                    // fr.onload = function () {
+                    //     const obj = {
+                    //         username: that.userid,
+                    //         src: that.src,
+                    //         img: fr.result,
+                    //         msg: '',
+                    //         roomid: that.roomid,
+                    //         time: new Date(),
+                    //         api_token: that.token
+                    //     };
+                    //     socket.emit('message', obj);
+                    // };
+                    // fr.readAsDataURL(file1);
+
                 } else {
                     console.log('必须有文件');
                 }

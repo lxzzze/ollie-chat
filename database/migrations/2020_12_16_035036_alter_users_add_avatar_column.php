@@ -14,7 +14,7 @@ class AlterUsersAddAvatarColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('avatar')->after('password')->nullable()->comment('用户头像');
+            $table->string('avatar')->after('password')->default('/storage/images/avatars/default.jpeg')->comment('用户头像');
         });
     }
 

@@ -67,9 +67,4 @@ class MessageController extends Controller
         ]);
     }
 
-    public function test($id)
-    {
-        $key = 'online_users_'.$id;
-        dd(Cache::get($key));
-    }
 }

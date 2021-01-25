@@ -2741,7 +2741,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               _this.token = Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_4__["getItem"])('token');
-              console.log(_this.token, 'token666');
               roomId = Object(_utils_queryString__WEBPACK_IMPORTED_MODULE_5__["queryString"])(window.location.href, 'roomId');
               _this.roomid = roomId;
 
@@ -2758,10 +2757,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
               }
 
-              _context.next = 8;
+              _context.next = 7;
               return _api_server__WEBPACK_IMPORTED_MODULE_10__["default"].getNotice();
 
-            case 8:
+            case 7:
               res = _context.sent;
               _this.noticeList = res.data.noticeList;
 
@@ -2771,7 +2770,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               _this.noticeVersion = res.data.version;
 
-            case 12:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -2953,27 +2952,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var formdata = new window.FormData();
         formdata.append('file', file1);
         formdata.append('api_token', that.token);
-        formdata.append('roomid', that.roomid);
-        this.$store.dispatch('uploadImg', formdata);
-        var fr = new window.FileReader();
+        formdata.append('roomid', that.roomid); //上传图片
 
-        fr.onload = function () {
-          var obj = {
-            username: that.userid,
-            src: that.src,
-            img: fr.result,
-            msg: '',
-            roomid: that.roomid,
-            time: new Date(),
-            api_token: that.token
-          };
-          _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('message', obj);
-        };
+        _api_axios__WEBPACK_IMPORTED_MODULE_14__["default"].post('/file/uploadimg', formdata, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }).then(function (res) {
+          if (res.data.data.errno == 200) {
+            var img = res.data.data.data.img;
+            var obj = {
+              username: that.userid,
+              src: that.src,
+              img: img,
+              msg: '',
+              roomid: that.roomid,
+              time: new Date(),
+              api_token: that.token
+            };
+            _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('message', obj);
 
-        fr.readAsDataURL(file1);
-        this.$nextTick(function () {
-          _this3.container.scrollTop = 10000;
-        });
+            _this3.$nextTick(function () {
+              _this3.container.scrollTop = 10000;
+            });
+          }
+        }); // this.$store.dispatch('uploadImg', formdata);
+        // const fr = new window.FileReader();
+        // fr.onload = function () {
+        //     const obj = {
+        //         username: that.userid,
+        //         src: that.src,
+        //         img: fr.result,
+        //         msg: '',
+        //         roomid: that.roomid,
+        //         time: new Date(),
+        //         api_token: that.token
+        //     };
+        //     socket.emit('message', obj);
+        // };
+        // fr.readAsDataURL(file1);
       } else {
         console.log('必须有文件');
       }
