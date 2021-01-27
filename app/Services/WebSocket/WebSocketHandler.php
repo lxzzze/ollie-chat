@@ -3,7 +3,6 @@ namespace App\Services\WebSocket;
 
 use App\Services\WebSocket\SocketIO\Packet;
 use Hhxsv5\LaravelS\Swoole\WebSocketHandlerInterface;
-use Illuminate\Support\Facades\Log;
 use Swoole\Http\Request;
 use Swoole\WebSocket\Frame;
 use Swoole\WebSocket\Server;

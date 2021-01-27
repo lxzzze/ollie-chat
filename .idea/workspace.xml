@@ -3,11 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="b722e5d2-5f18-453c-aee5-67e5de4ee0b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MessageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MessageController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_16_035036_alter_users_add_avatar_column.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_12_16_035036_alter_users_add_avatar_column.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/WebSocket/WebSocketHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/WebSocket/WebSocketHandler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/laravels.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/laravels.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/api/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/const/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/const/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/pages/Chat.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/pages/Chat.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/pages/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/pages/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/websocket.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/websocket.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/laravels.conf" beforeDir="false" afterPath="$PROJECT_DIR$/storage/laravels.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/laravels.pid" beforeDir="false" afterPath="$PROJECT_DIR$/storage/laravels.pid" afterDir="false" />
@@ -230,7 +237,16 @@
       <workItem from="1611278938306" duration="11540000" />
       <workItem from="1611365612472" duration="14079000" />
       <workItem from="1611537883888" duration="5983000" />
-      <workItem from="1611554728230" duration="1635000" />
+      <workItem from="1611554728230" duration="1915000" />
+      <workItem from="1611562344554" duration="6537000" />
+      <workItem from="1611570061113" duration="125000" />
+      <workItem from="1611573058027" duration="475000" />
+      <workItem from="1611574641164" duration="48000" />
+      <workItem from="1611574842155" duration="210000" />
+      <workItem from="1611623840083" duration="1313000" />
+      <workItem from="1611626266115" duration="2904000" />
+      <workItem from="1611710276661" duration="1119000" />
+      <workItem from="1611719341955" duration="5395000" />
     </task>
     <servers />
   </component>
@@ -242,24 +258,28 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="716" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1611047543833" />
-    <state x="705" y="335" key="NewPhpClassDialog" timestamp="1608345076661">
+    <state x="747" y="296" key="FileChooserDialogImpl" timestamp="1611739244900">
       <screen x="0" y="23" width="1920" height="977" />
     </state>
-    <state x="705" y="335" key="NewPhpClassDialog/0.23.1920.977@0.23.1920.977" timestamp="1608345076661" />
+    <state x="747" y="296" key="FileChooserDialogImpl/0.23.1920.977@0.23.1920.977" timestamp="1611739244900" />
+    <state x="705" y="335" key="NewPhpClassDialog" timestamp="1611564003808">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="705" y="335" key="NewPhpClassDialog/0.23.1920.977@0.23.1920.977" timestamp="1611564003808" />
     <state x="781" y="463" key="NewPhpFileDialog" timestamp="1611045429087">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="781" y="463" key="NewPhpFileDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1611045429087" />
     <state x="781" y="442" key="NewPhpFileDialog/0.23.1920.977@0.23.1920.977" timestamp="1608342692226" />
-    <state x="639" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1610933263272">
+    <state x="639" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1611719342390">
       <screen x="0" y="23" width="1920" height="977" />
     </state>
-    <state x="639" y="344" key="com.intellij.ide.util.TipDialog/0.23.1920.977@0.23.1920.977" timestamp="1610933263272" />
-    <state x="626" y="296" width="667" height="476" key="find.popup" timestamp="1611383929584">
+    <state x="639" y="344" key="com.intellij.ide.util.TipDialog/0.23.1920.977@0.23.1920.977" timestamp="1611719342390" />
+    <state x="626" y="296" width="667" height="476" key="find.popup" timestamp="1611739261058">
       <screen x="0" y="23" width="1920" height="977" />
     </state>
-    <state x="626" y="302" width="667" height="476" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1611043685543" />
-    <state x="626" y="296" width="667" height="476" key="find.popup/0.23.1920.977@0.23.1920.977" timestamp="1611383929584" />
+    <state x="626" y="302" width="667" height="476" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1611624721377" />
+    <state x="626" y="296" width="667" height="476" key="find.popup/0.23.1920.977@0.23.1920.977" timestamp="1611739261058" />
     <state x="625" y="236" key="run.anything.popup" timestamp="1611540738131">
       <screen x="0" y="23" width="1920" height="977" />
     </state>

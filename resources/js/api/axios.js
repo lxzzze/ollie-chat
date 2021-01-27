@@ -5,11 +5,13 @@ const instance = axios.create();
 
 instance.defaults.timeout = 30000; // 所有接口30s超时
 instance.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+instance.defaults.withCredentials = true;
 
 // 所有请求头设置 CSRF Token
 let token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
     instance.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }

@@ -97,12 +97,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="fun-li" @click="handleTips">
-                        <i class="icon iconfont icon-zanshang"></i>
-                    </div>
-                    <div class="fun-li" @click="handleGithub">
-                        <i class="icon iconfont icon-wenti"></i>
-                    </div>
+<!--                    <div class="fun-li" @click="handleTips">-->
+<!--                        <i class="icon iconfont icon-zanshang"></i>-->
+<!--                    </div>-->
+<!--                    <div class="fun-li" @click="handleGithub">-->
+<!--                        <i class="icon iconfont icon-wenti"></i>-->
+<!--                    </div>-->
                 </div>
                 <div class="chat">
                     <div class="input" @keyup.enter="submess">
@@ -254,17 +254,6 @@
             closeSimpleDialog() {
                 this.openSimple = false;
             },
-            handleGithub() {
-                Alert({
-                    content: 'https://github.com/nonfu/webchat'
-                });
-            },
-            handleTips() {
-                Alert({
-                    title: '请我喝杯咖啡',
-                    html: '<div><img style="width: 200px" src="https://xueyuanjun.com/wp-content/uploads/2019/05/e7156cfe0196dd7d7ea4f8f5f10b8d1a.jpeg" /></div>'
-                });
-            },
             goback() {
                 const obj = {
                     name: this.userid,
@@ -307,22 +296,6 @@
                                 });
                             }
                         });
-                    // this.$store.dispatch('uploadImg', formdata);
-                    // const fr = new window.FileReader();
-                    // fr.onload = function () {
-                    //     const obj = {
-                    //         username: that.userid,
-                    //         src: that.src,
-                    //         img: fr.result,
-                    //         msg: '',
-                    //         roomid: that.roomid,
-                    //         time: new Date(),
-                    //         api_token: that.token
-                    //     };
-                    //     socket.emit('message', obj);
-                    // };
-                    // fr.readAsDataURL(file1);
-
                 } else {
                     console.log('必须有文件');
                 }

@@ -5,8 +5,10 @@
 
 // 通过 socket.io 客户端进行 WebSocket 通信
 import io from 'socket.io-client';
-const socket = io('http://todo-s.test', {
-    path: '/ws',
-    transports: ['websocket']
-});
+// const socket = io('http://todo-s.test', {
+//     path: '/ws',
+//     transports: ['websocket']
+// });
+const socket = io('http://todo-s.test',{transports: ['websocket']});
+
 export default socket;

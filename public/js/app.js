@@ -2918,17 +2918,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     closeSimpleDialog: function closeSimpleDialog() {
       this.openSimple = false;
     },
-    handleGithub: function handleGithub() {
-      Object(_components_Alert__WEBPACK_IMPORTED_MODULE_8__["default"])({
-        content: 'https://github.com/nonfu/webchat'
-      });
-    },
-    handleTips: function handleTips() {
-      Object(_components_Alert__WEBPACK_IMPORTED_MODULE_8__["default"])({
-        title: '请我喝杯咖啡',
-        html: '<div><img style="width: 200px" src="https://xueyuanjun.com/wp-content/uploads/2019/05/e7156cfe0196dd7d7ea4f8f5f10b8d1a.jpeg" /></div>'
-      });
-    },
     goback: function goback() {
       var obj = {
         name: this.userid,
@@ -2976,21 +2965,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this3.container.scrollTop = 10000;
             });
           }
-        }); // this.$store.dispatch('uploadImg', formdata);
-        // const fr = new window.FileReader();
-        // fr.onload = function () {
-        //     const obj = {
-        //         username: that.userid,
-        //         src: that.src,
-        //         img: fr.result,
-        //         msg: '',
-        //         roomid: that.roomid,
-        //         time: new Date(),
-        //         api_token: that.token
-        //     };
-        //     socket.emit('message', obj);
-        // };
-        // fr.readAsDataURL(file1);
+        });
       } else {
         console.log('必须有文件');
       }
@@ -3184,7 +3159,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$router.push("/avatar");
       this.$store.commit("setTab", false);
     },
-    rmLocalData: function rmLocalData() {
+    // async rmLocalData() {
+    //   const data = await Confirm({
+    //     title: "提示",
+    //     content: "清除缓存会导致更新历史再再次提醒，确定清除？"
+    //   });
+    //   if (data === "submit") {
+    //     removeItem("update-20180916");
+    //   }
+    // },
+    logout: function logout() {
+      var _this2 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -3194,41 +3180,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.next = 2;
                 return Object(_components_Confirm__WEBPACK_IMPORTED_MODULE_3__["default"])({
                   title: "提示",
-                  content: "清除缓存会导致更新历史再再次提醒，确定清除？"
-                });
-
-              case 2:
-                data = _context2.sent;
-
-                if (data === "submit") {
-                  Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_2__["removeItem"])("update-20180916");
-                }
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    logout: function logout() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return Object(_components_Confirm__WEBPACK_IMPORTED_MODULE_3__["default"])({
-                  title: "提示",
                   content: "你忍心离开吗？"
                 });
 
               case 2:
-                data = _context3.sent;
+                data = _context2.sent;
 
                 if (data === "submit") {
                   Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_2__["clear"])();
@@ -3260,23 +3216,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     },
     handleGithub: function handleGithub() {
       Object(_components_Alert__WEBPACK_IMPORTED_MODULE_4__["default"])({
-        content: "https://github.com/nonfu/webchat"
+        content: "https://github.com/lxzzze/ollie-chat"
       });
-    },
-    handleTips: function handleTips() {
-      Object(_components_Alert__WEBPACK_IMPORTED_MODULE_4__["default"])({
-        title: "请我喝杯咖啡",
-        html: '<div>' + '<img style="width: 200px;" src="https://xueyuanjun.com/wp-content/uploads/2019/05/e7156cfe0196dd7d7ea4f8f5f10b8d1a.jpeg" />' + '</div>'
-      });
-    }
+    } // handleTips() {
+    //   Alert({
+    //     title: "请我喝杯咖啡",
+    //     html:
+    //       '<div>' +
+    //         '<img style="width: 200px;" src="https://xueyuanjun.com/wp-content/uploads/2019/05/e7156cfe0196dd7d7ea4f8f5f10b8d1a.jpeg" />' +
+    //         '</div>'
+    //   });
+    // }
+
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
     userid: function userid(state) {
@@ -3305,6 +3264,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _socket__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../socket */ "./resources/js/socket.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _const_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../const/index */ "./resources/js/const/index.js");
+/* harmony import */ var _const_index__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_const_index__WEBPACK_IMPORTED_MODULE_4__);
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -3845,6 +3805,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Alert */ "./resources/js/components/Alert/index.js");
 /* harmony import */ var _components_Message__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Message */ "./resources/js/components/Message/index.vue");
 /* harmony import */ var _const_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../const/index */ "./resources/js/const/index.js");
+/* harmony import */ var _const_index__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_const_index__WEBPACK_IMPORTED_MODULE_3__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -7770,7 +7731,6 @@ Socket.prototype.onPacket = function (packet) {
 
     // Socket is live - any packet counts
     this.emit('heartbeat');
-
     switch (packet.type) {
       case 'open':
         this.onHandshake(JSON.parse(packet.data));
@@ -31591,19 +31551,7 @@ var render = function() {
                   ])
                 ]
               )
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "fun-li", on: { click: _vm.handleTips } },
-              [_c("i", { staticClass: "icon iconfont icon-zanshang" })]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "fun-li", on: { click: _vm.handleGithub } },
-              [_c("i", { staticClass: "icon iconfont icon-wenti" })]
-            )
+            ])
           ]),
           _vm._v(" "),
           _c(
@@ -31718,7 +31666,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "name" }, [
-        _vm._v("\n      " + _vm._s(_vm.userid) + "\n    ")
+        _vm._v("\n        " + _vm._s(_vm.userid) + "\n      ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "background" }, [
@@ -31755,26 +31703,6 @@ var render = function() {
             _vm._v(" "),
             _c(
               "mu-list-item",
-              { attrs: { button: "" }, on: { click: _vm.handleTips } },
-              [
-                _c(
-                  "mu-list-item-action",
-                  [
-                    _c("mu-icon", {
-                      attrs: { slot: "left", value: "inbox" },
-                      slot: "left"
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("mu-list-item-title", [_vm._v("赞助一下")])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "mu-list-item",
               { attrs: { button: "" }, on: { click: _vm.handleGithub } },
               [
                 _c(
@@ -31789,26 +31717,6 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("mu-list-item-title", [_vm._v("Github地址")])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "mu-list-item",
-              { attrs: { button: "" }, on: { click: _vm.rmLocalData } },
-              [
-                _c(
-                  "mu-list-item-action",
-                  [
-                    _c("mu-icon", {
-                      attrs: { slot: "left", value: "drafts" },
-                      slot: "left"
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("mu-list-item-title", [_vm._v("清除缓存")])
               ],
               1
             )
@@ -49946,7 +49854,8 @@ var baseURL = '/api';
 var instance = axios__WEBPACK_IMPORTED_MODULE_1___default.a.create();
 instance.defaults.timeout = 30000; // 所有接口30s超时
 
-instance.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // 所有请求头设置 CSRF Token
+instance.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+instance.defaults.withCredentials = true; // 所有请求头设置 CSRF Token
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
@@ -50993,23 +50902,17 @@ function svg() {
 /*!*************************************!*\
   !*** ./resources/js/const/index.js ***!
   \*************************************/
-/*! exports provided: ROBOT_URL, ROBOT_NAME, HOST_URL1, HOST_URL2, HOSTER_URL, HOSTER_NAME */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ROBOT_URL", function() { return ROBOT_URL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ROBOT_NAME", function() { return ROBOT_NAME; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HOST_URL1", function() { return HOST_URL1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HOST_URL2", function() { return HOST_URL2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HOSTER_URL", function() { return HOSTER_URL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HOSTER_NAME", function() { return HOSTER_NAME; });
-var ROBOT_URL = '//s3.qiufengh.com/avatar/robots.jpg';
-var ROBOT_NAME = '大白';
-var HOST_URL1 = '//s3.qiufengh.com/images/house.png?imageView2/2/w/120/h/120';
-var HOST_URL2 = '//s3.qiufengh.com/images/house2.png?imageView2/2/w/120/h/120';
-var HOSTER_URL = '//s3.qiufengh.com/avatar/hoster.jpg';
-var HOSTER_NAME = '主人';
+// export const ROBOT_URL = '//s3.qiufengh.com/avatar/robots.jpg';
+// export const ROBOT_NAME = '大白';
+//
+// export const HOST_URL1 = '//s3.qiufengh.com/images/house.png?imageView2/2/w/120/h/120';
+// export const HOST_URL2 = '//s3.qiufengh.com/images/house2.png?imageView2/2/w/120/h/120';
+//
+// export const HOSTER_URL = '//s3.qiufengh.com/avatar/hoster.jpg';
+// export const HOSTER_NAME = '主人';
 
 /***/ }),
 
@@ -51898,9 +51801,12 @@ __webpack_require__.r(__webpack_exports__);
 // const socket = io.connect(process.env.APP_URL + ':' + process.env.LARAVELS_LISTEN_PORT + '/ws/')
 // export default socket
 // 通过 socket.io 客户端进行 WebSocket 通信
+ // const socket = io('http://todo-s.test', {
+//     path: '/ws',
+//     transports: ['websocket']
+// });
 
 var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_0___default()('http://todo-s.test', {
-  path: '/ws',
   transports: ['websocket']
 });
 /* harmony default export */ __webpack_exports__["default"] = (socket);
@@ -51924,6 +51830,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_server__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api/server */ "./resources/js/api/server.js");
 /* harmony import */ var _utils_localStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/localStorage */ "./resources/js/utils/localStorage.js");
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../const */ "./resources/js/const/index.js");
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_const__WEBPACK_IMPORTED_MODULE_5__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }

@@ -19,24 +19,24 @@
           </mu-list-item-action>
           <mu-list-item-title>修改头像</mu-list-item-title>
         </mu-list-item>
-        <mu-list-item button @click="handleTips">
-          <mu-list-item-action>
-            <mu-icon slot="left" value="inbox"/>
-          </mu-list-item-action>
-          <mu-list-item-title>赞助一下</mu-list-item-title>
-        </mu-list-item>
+<!--        <mu-list-item button @click="handleTips">-->
+<!--          <mu-list-item-action>-->
+<!--            <mu-icon slot="left" value="inbox"/>-->
+<!--          </mu-list-item-action>-->
+<!--          <mu-list-item-title>赞助一下</mu-list-item-title>-->
+<!--        </mu-list-item>-->
         <mu-list-item button @click="handleGithub">
           <mu-list-item-action>
             <mu-icon slot="left" value="grade"/>
           </mu-list-item-action>
           <mu-list-item-title>Github地址</mu-list-item-title>
         </mu-list-item>
-        <mu-list-item button @click="rmLocalData">
-          <mu-list-item-action>
-            <mu-icon slot="left" value="drafts"/>
-          </mu-list-item-action>
-          <mu-list-item-title>清除缓存</mu-list-item-title>
-        </mu-list-item>
+<!--        <mu-list-item button @click="rmLocalData">-->
+<!--          <mu-list-item-action>-->
+<!--            <mu-icon slot="left" value="drafts"/>-->
+<!--          </mu-list-item-action>-->
+<!--          <mu-list-item-title>清除缓存</mu-list-item-title>-->
+<!--        </mu-list-item>-->
       </mu-list>
       <!--<mu-divider/>-->
     </div>
@@ -77,15 +77,15 @@ export default {
       this.$router.push("/avatar");
       this.$store.commit("setTab", false);
     },
-    async rmLocalData() {
-      const data = await Confirm({
-        title: "提示",
-        content: "清除缓存会导致更新历史再再次提醒，确定清除？"
-      });
-      if (data === "submit") {
-        removeItem("update-20180916");
-      }
-    },
+    // async rmLocalData() {
+    //   const data = await Confirm({
+    //     title: "提示",
+    //     content: "清除缓存会导致更新历史再再次提醒，确定清除？"
+    //   });
+    //   if (data === "submit") {
+    //     removeItem("update-20180916");
+    //   }
+    // },
     async logout() {
       const data = await Confirm({
         title: "提示",
@@ -115,18 +115,18 @@ export default {
     },
     handleGithub() {
       Alert({
-        content: "https://github.com/nonfu/webchat"
+        content: "https://github.com/lxzzze/ollie-chat"
       });
     },
-    handleTips() {
-      Alert({
-        title: "请我喝杯咖啡",
-        html:
-          '<div>' +
-            '<img style="width: 200px;" src="https://xueyuanjun.com/wp-content/uploads/2019/05/e7156cfe0196dd7d7ea4f8f5f10b8d1a.jpeg" />' +
-            '</div>'
-      });
-    }
+    // handleTips() {
+    //   Alert({
+    //     title: "请我喝杯咖啡",
+    //     html:
+    //       '<div>' +
+    //         '<img style="width: 200px;" src="https://xueyuanjun.com/wp-content/uploads/2019/05/e7156cfe0196dd7d7ea4f8f5f10b8d1a.jpeg" />' +
+    //         '</div>'
+    //   });
+    // }
   },
   computed: {
     ...mapState({

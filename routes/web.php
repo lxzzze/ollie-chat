@@ -25,3 +25,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/danmu', function() {
     return view('danmu');
 });
+
+Route::middleware('cors')->group(function () {
+    Route::get('/socket.io', 'SocketIOController@upgrade');
+
+    Route::post('/socket.io', 'SocketIOController@ok');
+});
+
+

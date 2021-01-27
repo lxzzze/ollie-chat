@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Redis;
 WebsocketProxy::on('connect', function (WebSocket $websocket, Request $request) {
     // 发送欢迎信息
     $websocket->setSender($request->fd);
-    $websocket->emit('connect', '欢迎访问聊天室');
-
 });
 
 WebsocketProxy::on('disconnect', function (WebSocket $websocket, $data) {

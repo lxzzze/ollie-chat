@@ -357,8 +357,8 @@ return [
 
 
         // 每隔 60s 检测一次所有连接，如果某个连接在 600s 内都没有发送任何数据，则关闭该连接
-        'heartbeat_idle_time'      => 6000,
-        'heartbeat_check_interval' => 600,
+        'heartbeat_idle_time'      => 600,
+        'heartbeat_check_interval' => 60,
         /*
         |
         | The number of the reactor threads.
