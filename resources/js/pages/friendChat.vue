@@ -1,15 +1,6 @@
 <template>
     <div>
         <div class="container">
-            <mu-dialog width="360" :open.sync="openSimple">
-                <div class="all-chat">
-                    <div slot="title">在线人员</div>
-                    <div v-for="(obj,index) in getUsers" class="online" :key="index">
-                        <img :src="obj.avatar" alt="">
-                    </div>
-                </div>
-                <mu-button slot="actions" flat color="primary" @click="closeSimpleDialog">关闭</mu-button>
-            </mu-dialog>
             <div class="title">
                 <mu-appbar title="Title">
                     <mu-button icon slot="left" @click="goback">
@@ -18,7 +9,7 @@
                     <div class="center">
                         聊天({{Object.keys(getUsers).length}})
                     </div>
-                    <mu-button icon slot="right" @click="openSimpleDialog">
+                    <mu-button icon slot="right" @click="">
                         <mu-icon value="people"></mu-icon>
                     </mu-button>
                 </mu-appbar>
@@ -87,12 +78,6 @@
                             </div>
                         </div>
                     </div>
-<!--                    <div class="fun-li" @click="handleTips">-->
-<!--                        <i class="icon iconfont icon-zanshang"></i>-->
-<!--                    </div>-->
-<!--                    <div class="fun-li" @click="handleGithub">-->
-<!--                        <i class="icon iconfont icon-wenti"></i>-->
-<!--                    </div>-->
                 </div>
                 <div class="chat">
                     <div class="input" @keyup.enter="submess">
@@ -130,7 +115,7 @@
             const {noticeBar, noticeVersion} = notice;
             return {
                 isloading: false,
-                roomid: '',
+                friendId: '',
                 container: {},
                 chatValue: '',
                 emoji: emoji,
@@ -152,21 +137,15 @@
         },
         async created() {
             this.token = getItem('token');
-            const roomId = queryString(window.location.href, 'roomId');
-            this.roomid = roomId;
-            if (!roomId) {
+            const friendId = queryString(window.location.href, 'friendId');
+            this.friendId = friendId;
+            if (!friendId) {
                 this.$router.push({path: '/'});
             }
             if (!this.userid) {
                 // 防止未登录
                 this.$router.push({path: '/login'});
             }
-            // const res = await url.getNotice();
-            // this.noticeList = res.data.noticeList;
-            // if (res.data.version !== res.data.version) {
-            //     this.noticeBar = false;
-            // }
-            // this.noticeVersion = res.data.version;
 
         },
         async mounted() {
@@ -180,7 +159,7 @@
             const obj = {
                 name: this.userid,
                 src: this.src,
-                roomid: this.roomid,
+                roomid: this.friendId,
                 api_token: this.token
             };
             socket.emit('room', obj);
@@ -195,7 +174,7 @@
                 const data = {
                     total: +this.getTotal,
                     current: this.current,
-                    roomid: this.roomid,
+                    roomid: this.friendId,
                     api_token: this.token
                 };
                 this.isloading = true;
@@ -213,7 +192,7 @@
                     const data = {
                         total: +this.getTotal,
                         current: this.getCurrent,
-                        roomid: this.roomid,
+                        roomid: this.friendId,
                         api_token: this.token
                     };
                     this.isloading = true;
@@ -238,19 +217,13 @@
                     noticeVersion: this.noticeVersion
                 });
             },
-            openSimpleDialog() {
-                this.openSimple = true;
-            },
-            closeSimpleDialog() {
-                this.openSimple = false;
-            },
             goback() {
-                const obj = {
-                    name: this.userid,
-                    roomid: this.roomid,
-                    api_token: this.token,
-                };
-                socket.emit('roomout', obj);
+                // const obj = {
+                //     name: this.userid,
+                //     roomid: this.roomid,
+                //     api_token: this.token,
+                // };
+                // socket.emit('roomout', obj);
                 this.$router.goBack();
                 this.$store.commit('setTab', true);
                 this.$store.commit('setCurrent', 0);
@@ -265,7 +238,7 @@
                     const formdata = new window.FormData();
                     formdata.append('file', file1);
                     formdata.append('api_token', that.token);
-                    formdata.append('roomid', that.roomid);
+                    formdata.append('roomid', that.friendId);
                     //上传图片
                     Axios.post('/file/uploadimg', formdata, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
                         .then((res) => {
@@ -276,7 +249,7 @@
                                     src: that.src,
                                     img: img,
                                     msg: '',
-                                    roomid: that.roomid,
+                                    roomid: that.friendId,
                                     time: new Date(),
                                     api_token: that.token
                                 };
@@ -310,7 +283,7 @@
                         src: this.src,
                         img: '',
                         msg,
-                        roomid: this.roomid,
+                        roomid: this.friendId,
                         time: new Date(),
                         api_token: this.token
                     };

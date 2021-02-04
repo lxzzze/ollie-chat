@@ -139,15 +139,11 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        async uploadAvatar({
-            commit
-        }, data) {
+        async uploadAvatar({commit}, data) {
             const res = await url.postUploadAvatar(data);
             return res.data;
         },
-        async uploadImg({
-            commit
-        }, data) {
+        async uploadImg({commit}, data) {
             const res = await url.postUploadFile(data);
             if (res) {
                 if (res.data.errno === 0) {
@@ -155,9 +151,7 @@ const store = new Vuex.Store({
                 }
             }
         },
-        async registerSubmit({
-            commit
-        }, data) {
+        async registerSubmit({commit}, data) {
             const res = await url.RegisterUser(data);
             if (res.data.errno === 0) {
                 return {
@@ -170,9 +164,7 @@ const store = new Vuex.Store({
                 data: res.data
             };
         },
-        async loginSubmit({
-            commit
-        }, data) {
+        async loginSubmit({commit}, data) {
             const res = await url.loginUser(data);
             if (res.data.errno === 0) {
                 return {
@@ -185,10 +177,7 @@ const store = new Vuex.Store({
                 data: res.data
             };
         },
-        async getAllMessHistory({
-            state,
-            commit
-        }, data) {
+        async getAllMessHistory({state, commit}, data) {
             const res = await url.RoomHistoryAll(data);
             if (res.data.data.errno === 0) {
                 commit('addRoomDefatilInfosHis', res.data.data.data);
@@ -197,9 +186,7 @@ const store = new Vuex.Store({
                 }
             }
         },
-        async getRobatMess({
-            commit
-        }, data) {
+        async getRobatMess({commit}, data) {
             const username = ROBOT_NAME;
             const src = ROBOT_URL;
             const res = await url.getRobotMessage(data);

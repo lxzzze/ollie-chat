@@ -7,8 +7,10 @@ import Home from '../pages/Home';
 import Avatar from '../pages/Avatar';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import friendsList from "../pages/friendsList";
 import BaseTransition from '../layout/BaseTransition';
 import loading from '../components/loading';
+import friendChat from "../pages/friendChat";
 
 // 通过 Vue Router 定义前端路由
 Router.prototype.goBack = function () {
@@ -45,6 +47,16 @@ const router = new Router({
             path: '/home',
             name: 'Home',
             component: Home
+        },
+        {
+            path: '/friendsList',
+            name: 'friendsList',
+            component: friendsList
+        },
+        {
+            path: '/friendChat',
+            name: 'friendChat',
+            component: friendChat
         },
         {
             path: '/avatar',

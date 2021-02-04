@@ -10,5 +10,7 @@ import io from 'socket.io-client';
 //     transports: ['websocket']
 // });
 const socket = io('http://todo-s.test',{transports: ['websocket']});
+// const socket = io('http://todo-s.test');
+
 
 export default socket;

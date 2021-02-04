@@ -10,7 +10,17 @@ import store from './store';     // store
 import socket from './socket';
 import {queryString} from './utils/queryString';
 import MuseUI from 'muse-ui';    // muse-ui组件
+import Toast from 'muse-ui-toast';
+import 'muse-ui-message/dist/muse-ui-message.css';
+import 'muse-ui-loading/dist/muse-ui-loading.css';
+import Loading from 'muse-ui-loading';
+import Message from 'muse-ui-message';
+
+Vue.use(Message);
+Vue.use(Loading);
 Vue.use(MuseUI);
+Vue.use(Toast);
+
 
 import vuePicturePreview from './components/photo-viewer';
 Vue.use(vuePicturePreview);

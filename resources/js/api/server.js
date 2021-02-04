@@ -26,8 +26,11 @@ const Service = {
         }
     }),
 
-    // 请求公告
-    getNotice: () => Axios.get('https://s3.qiufengh.com/config/notice-config.js')
+    //搜索用户
+    searchUser: data => Axios.get(`/user/search?email=${data.email}&api_token=${data.api_token}`),
+    //添加好友
+    addFriend : data => Axios.get(`/user/addFriend?friend_id=${data.friend_id}&api_token=${data.api_token}&message=${data.message}`),
+
 };
 
 export default Service;

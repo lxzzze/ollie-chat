@@ -20,6 +20,7 @@ class SocketIOController extends Controller
         }
 
         if ($request->has('sid')) {
+//            return '\u0\u298:40';
             return '1:6';
         }
 
@@ -29,7 +30,7 @@ class SocketIOController extends Controller
             'pingInterval' => config('laravels.swoole.heartbeat_idle_time') * 1000,
             'pingTimeout' => config('laravels.swoole.heartbeat_check_interval') * 1000,
         ]);
-        return response('97:0' . $payload . '2:40');
+        return response('98:0' . $payload . '2:40');
     }
 
     public function ok()
