@@ -10,5 +10,9 @@ class UserMessage extends Model
     public $timestamps = true;
     protected $guarded = [];
 
-
+    //关联用户
+    public function user()
+    {
+        return $this->hasOne(User::class,'id','from_user_id');
+    }
 }

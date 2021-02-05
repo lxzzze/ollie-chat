@@ -16,8 +16,8 @@
             </div>
             <div class="chat-inner">
                 <div class="chat-container">
-                    <div v-if="getInfos.length === 0" class="chat-no-people">暂无消息,赶紧来占个沙发～</div>
-                    <div v-if="getInfos.length !== 0 && isloading" class="chat-loading">
+                    <div v-if="getFriendInfo.length === 0" class="chat-no-people">暂无消息,赶紧来占个沙发～</div>
+                    <div v-if="getFriendInfo.length !== 0 && isloading" class="chat-loading">
                         <div class="lds-css ng-scope">
                             <div class="lds-rolling">
                                 <div>
@@ -27,7 +27,7 @@
                     </div>
                     <!-- <div v-if="getInfos.length > 0" class="chat-top">到顶啦~</div> -->
                     <Message
-                        v-for="obj in getInfos"
+                        v-for="obj in getFriendInfo"
                         :key="obj._id"
                         :is-self="obj.userid === userid"
                         :name="obj.username"
@@ -126,13 +126,7 @@
                 noticeVersion: noticeVersion || '20181222',
                 token:null,
                 message:[],
-                room_detail: {
-                    id: '',
-                    users: {},
-                    infos: [],
-                    current: 1,
-                    total: 0
-                },
+
             };
         },
         async created() {
@@ -162,23 +156,24 @@
                 roomid: this.friendId,
                 api_token: this.token
             };
-            socket.emit('room', obj);
-            socket.on('room', function (obj) {
-                that.$store.commit('setUsers', obj);
-            });
-            socket.on('roomout', function (obj) {
-                that.$store.commit('setUsers', obj);
-            });
+            // socket.emit('room', obj);
+            //
+            // socket.on('room', function (obj) {
+            //     that.$store.commit('setUsers', obj);
+            // });
+            // socket.on('roomout', function (obj) {
+            //     that.$store.commit('setUsers', obj);
+            // });
             loading.show();
             setTimeout(async () => {
                 const data = {
-                    total: +this.getTotal,
+                    total: +this.getFriendTotal,
                     current: this.current,
-                    roomid: this.friendId,
+                    friendId: this.friendId,
                     api_token: this.token
                 };
                 this.isloading = true;
-                await this.$store.dispatch('getAllMessHistory', data);
+                await this.$store.dispatch('getFriendHistory', data);
                 this.isloading = false;
                 loading.hide();
                 this.$nextTick(() => {
@@ -188,15 +183,15 @@
 
             this.container.addEventListener('scroll', debounce(async (e) => {
                 if (e.target.scrollTop >= 0 && e.target.scrollTop < 50) {
-                    this.$store.commit('setCurrent', this.getCurrent + 1);
+                    this.$store.commit('setFriendCurrent', this.getFriendCurrent + 1);
                     const data = {
-                        total: +this.getTotal,
-                        current: this.getCurrent,
-                        roomid: this.friendId,
+                        total: +this.getFriendTotal,
+                        current: this.getFriendCurrent,
+                        friendId: this.friendId,
                         api_token: this.token
                     };
                     this.isloading = true;
-                    await this.$store.dispatch('getAllMessHistory', data);
+                    await this.$store.dispatch('getFriendHistory', data);
                     this.isloading = false;
                 }
             }, 50));
@@ -210,13 +205,6 @@
             });
         },
         methods: {
-            handleNotice() {
-                this.noticeBar = !this.noticeBar;
-                setItem('notice', {
-                    noticeBar: this.noticeBar,
-                    noticeVersion: this.noticeVersion
-                });
-            },
             goback() {
                 // const obj = {
                 //     name: this.userid,
@@ -226,7 +214,7 @@
                 // socket.emit('roomout', obj);
                 this.$router.goBack();
                 this.$store.commit('setTab', true);
-                this.$store.commit('setCurrent', 0);
+                this.$store.commit('setFriendCurrent', 0);
             },
             setLog() {
                 // 版本更新日志
@@ -249,11 +237,11 @@
                                     src: that.src,
                                     img: img,
                                     msg: '',
-                                    roomid: that.friendId,
+                                    friendId: that.friendId,
                                     time: new Date(),
                                     api_token: that.token
                                 };
-                                socket.emit('message', obj);
+                                socket.emit('friendMessage', obj);
                                 this.$nextTick(() => {
                                     this.container.scrollTop = 10000;
                                 });
@@ -283,12 +271,12 @@
                         src: this.src,
                         img: '',
                         msg,
-                        roomid: this.friendId,
+                        friendId: this.friendId,
                         time: new Date(),
                         api_token: this.token
                     };
                     // 传递消息信息
-                    socket.emit('message', obj);
+                    socket.emit('friendMessage', obj);
                     this.chatValue = '';
                 } else {
                     Alert({
@@ -300,10 +288,10 @@
         computed: {
             ...mapGetters([
                 'getEmoji',
-                'getInfos',
                 'getUsers',
-                'getCurrent',
-                'getTotal'
+                'getFriendInfo',
+                'getFriendCurrent',
+                'getFriendTotal'
             ]),
             ...mapState([
                 'isbind'

@@ -32,6 +32,12 @@ const store = new Vuex.Store({
             current: 1,
             total: 0
         },
+        //与好友聊天信息
+        friendDetail:{
+            infos:[],
+            current:1,
+            total:0
+        },
         // 存放机器人开场白
         robotmsg: [{
                 username: ROBOT_NAME,
@@ -76,7 +82,10 @@ const store = new Vuex.Store({
         getUsers: state => state.roomdetail.users,
         getInfos: state => state.roomdetail.infos,
         getRobotMsg: state => state.robotmsg,
-        getEmoji: state => state.emojiShow
+        getEmoji: state => state.emojiShow,
+        getFriendInfo: state => state.friendDetail.infos,
+        getFriendCurrent:state => state.friendDetail.current,
+        getFriendTotal:state => state.friendDetail.total
     },
     mutations: {
         setTotal(state, value) {
@@ -114,15 +123,15 @@ const store = new Vuex.Store({
             state.svgmodal = data;
         },
         addRoomDetailInfos(state, data) {
-            let last = state.roomdetail.infos.slice(-1);
-            if (last){
-                if ((last[0]['time'] != data[0]['time']) && (last[0]['msg'] != data[0]['msg'] || last[0]['userid'] != data[0]['userid'])){
-                    state.roomdetail.infos.push(...data);
-                }
-            }else {
-                state.roomdetail.infos.push(...data);
-            }
-            // state.roomdetail.infos.push(...data);
+            // let last = state.roomdetail.infos.slice(-1);
+            // if (last){
+            //     if ((last[0]['time'] != data[0]['time']) && (last[0]['msg'] != data[0]['msg'] || last[0]['userid'] != data[0]['userid'])){
+            //         state.roomdetail.infos.push(...data);
+            //     }
+            // }else {
+            //     state.roomdetail.infos.push(...data);
+            // }
+            state.roomdetail.infos.push(...data);
         },
         addRoomDefatilInfosHis(state, data) {
             const list = state.roomdetail.infos;
@@ -136,6 +145,27 @@ const store = new Vuex.Store({
         },
         setRobotMsg(state, data) {
             state.robotmsg.push(data);
+        },
+        //清空好友聊天
+        setFriendDetailInfos(state){
+            state.friendDetail.infos = [];
+        },
+        //设置好友聊天信息总数
+        setFriendTotal(state,data){
+            state.friendDetail.total = data;
+        },
+        //设置当前好友聊天页数
+        setFriendCurrent(state,data){
+            state.friendDetail.current = data
+        },
+        //新增好友聊天信息
+        addFriendDetailInfo(state,data){
+            const list = state.friendDetail.infos;
+            state.friendDetail.infos = data.concat(list);
+        },
+        //接受一条消息
+        addFriendDetailInfosOne(state,data){
+            state.friendDetail.infos.push(...data);
         }
     },
     actions: {
@@ -183,6 +213,16 @@ const store = new Vuex.Store({
                 commit('addRoomDefatilInfosHis', res.data.data.data);
                 if (!state.roomdetail.total) {
                     commit('setTotal', res.data.data.total);
+                }
+            }
+        },
+        //获取好友聊天记录
+        async getFriendHistory({state, commit},data){
+            const res = await url.RoomFriendHistory(data);
+            if (res.data.data.errno === 0){
+                commit('addFriendDetailInfo', res.data.data.data);
+                if (!state.roomdetail.total) {
+                    commit('setFriendTotal', res.data.data.total);
                 }
             }
         },

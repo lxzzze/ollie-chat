@@ -4187,14 +4187,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       noticeList: [],
       noticeVersion: noticeVersion || '20181222',
       token: null,
-      message: [],
-      room_detail: {
-        id: '',
-        users: {},
-        infos: [],
-        current: 1,
-        total: 0
-      }
+      message: []
     };
   },
   created: function created() {
@@ -4258,14 +4251,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 src: _this2.src,
                 roomid: _this2.friendId,
                 api_token: _this2.token
-              };
-              _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('room', obj);
-              _socket__WEBPACK_IMPORTED_MODULE_13__["default"].on('room', function (obj) {
-                that.$store.commit('setUsers', obj);
-              });
-              _socket__WEBPACK_IMPORTED_MODULE_13__["default"].on('roomout', function (obj) {
-                that.$store.commit('setUsers', obj);
-              });
+              }; // socket.emit('room', obj);
+              //
+              // socket.on('room', function (obj) {
+              //     that.$store.commit('setUsers', obj);
+              // });
+              // socket.on('roomout', function (obj) {
+              //     that.$store.commit('setUsers', obj);
+              // });
+
               _components_loading__WEBPACK_IMPORTED_MODULE_7__["default"].show();
               Object(timers__WEBPACK_IMPORTED_MODULE_11__["setTimeout"])( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
                 var data;
@@ -4274,14 +4268,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     switch (_context2.prev = _context2.next) {
                       case 0:
                         data = {
-                          total: +_this2.getTotal,
+                          total: +_this2.getFriendTotal,
                           current: _this2.current,
-                          roomid: _this2.friendId,
+                          friendId: _this2.friendId,
                           api_token: _this2.token
                         };
                         _this2.isloading = true;
                         _context2.next = 4;
-                        return _this2.$store.dispatch('getAllMessHistory', data);
+                        return _this2.$store.dispatch('getFriendHistory', data);
 
                       case 4:
                         _this2.isloading = false;
@@ -4311,17 +4305,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                             break;
                           }
 
-                          _this2.$store.commit('setCurrent', _this2.getCurrent + 1);
+                          _this2.$store.commit('setFriendCurrent', _this2.getFriendCurrent + 1);
 
                           data = {
-                            total: +_this2.getTotal,
-                            current: _this2.getCurrent,
-                            roomid: _this2.friendId,
+                            total: +_this2.getFriendTotal,
+                            current: _this2.getFriendCurrent,
+                            friendId: _this2.friendId,
                             api_token: _this2.token
                           };
                           _this2.isloading = true;
                           _context3.next = 6;
-                          return _this2.$store.dispatch('getAllMessHistory', data);
+                          return _this2.$store.dispatch('getFriendHistory', data);
 
                         case 6:
                           _this2.isloading = false;
@@ -4349,7 +4343,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 e.stopPropagation();
               });
 
-            case 15:
+            case 12:
             case "end":
               return _context4.stop();
           }
@@ -4358,13 +4352,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    handleNotice: function handleNotice() {
-      this.noticeBar = !this.noticeBar;
-      Object(_utils_localStorage__WEBPACK_IMPORTED_MODULE_4__["setItem"])('notice', {
-        noticeBar: this.noticeBar,
-        noticeVersion: this.noticeVersion
-      });
-    },
     goback: function goback() {
       // const obj = {
       //     name: this.userid,
@@ -4374,7 +4361,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // socket.emit('roomout', obj);
       this.$router.goBack();
       this.$store.commit('setTab', true);
-      this.$store.commit('setCurrent', 0);
+      this.$store.commit('setFriendCurrent', 0);
     },
     setLog: function setLog() {// 版本更新日志
     },
@@ -4402,11 +4389,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               src: that.src,
               img: img,
               msg: '',
-              roomid: that.friendId,
+              friendId: that.friendId,
               time: new Date(),
               api_token: that.token
             };
-            _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('message', obj);
+            _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('friendMessage', obj);
 
             _this3.$nextTick(function () {
               _this3.container.scrollTop = 10000;
@@ -4438,12 +4425,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           src: this.src,
           img: '',
           msg: msg,
-          roomid: this.friendId,
+          friendId: this.friendId,
           time: new Date(),
           api_token: this.token
         }; // 传递消息信息
 
-        _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('message', obj);
+        _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('friendMessage', obj);
         this.chatValue = '';
       } else {
         Object(_components_Alert__WEBPACK_IMPORTED_MODULE_8__["default"])({
@@ -4452,7 +4439,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     }
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getEmoji', 'getInfos', 'getUsers', 'getCurrent', 'getTotal'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['isbind'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
+  computed: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getEmoji', // 'getInfos',
+  'getUsers', // 'getCurrent',
+  // 'getTotal',
+  'getFriendInfo', 'getFriendCurrent', 'getFriendTotal'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['isbind'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
     userid: function userid(state) {
       return state.userInfo.userid;
     },
@@ -34562,17 +34552,17 @@ var render = function() {
           "div",
           { staticClass: "chat-container" },
           [
-            _vm.getInfos.length === 0
+            _vm.getFriendInfo.length === 0
               ? _c("div", { staticClass: "chat-no-people" }, [
                   _vm._v("暂无消息,赶紧来占个沙发～")
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.getInfos.length !== 0 && _vm.isloading
+            _vm.getFriendInfo.length !== 0 && _vm.isloading
               ? _c("div", { staticClass: "chat-loading" }, [_vm._m(0)])
               : _vm._e(),
             _vm._v(" "),
-            _vm._l(_vm.getInfos, function(obj) {
+            _vm._l(_vm.getFriendInfo, function(obj) {
               return _c("Message", {
                 key: obj._id,
                 attrs: {
@@ -52819,6 +52809,12 @@ var Service = {
       params: data
     });
   },
+  //获取与当前好友历史聊天记录
+  RoomFriendHistory: function RoomFriendHistory(data) {
+    return _axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/history/friendMessage', {
+      params: data
+    });
+  },
   // 机器人
   getRobotMessage: function getRobotMessage(data) {
     return _axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/robot', {
@@ -52985,6 +52981,17 @@ _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('disconnect', function () {
 });
 _socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('message', function (obj) {
   _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('addRoomDetailInfos', [obj]);
+
+  if (Notification.permission === "granted") {
+    popNotice(obj);
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission(function (permission) {
+      popNotice(obj);
+    });
+  }
+});
+_socket__WEBPACK_IMPORTED_MODULE_5__["default"].on('friendMessage', function (obj) {
+  _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit('addFriendDetailInfosOne', [obj]);
 
   if (Notification.permission === "granted") {
     popNotice(obj);
@@ -54944,6 +54951,12 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       current: 1,
       total: 0
     },
+    //与好友聊天信息
+    friendDetail: {
+      infos: [],
+      current: 1,
+      total: 0
+    },
     // 存放机器人开场白
     robotmsg: [{
       username: _const__WEBPACK_IMPORTED_MODULE_5__["ROBOT_NAME"],
@@ -54994,6 +55007,15 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     },
     getEmoji: function getEmoji(state) {
       return state.emojiShow;
+    },
+    getFriendInfo: function getFriendInfo(state) {
+      return state.friendDetail.infos;
+    },
+    getFriendCurrent: function getFriendCurrent(state) {
+      return state.friendDetail.current;
+    },
+    getFriendTotal: function getFriendTotal(state) {
+      return state.friendDetail.total;
     }
   },
   mutations: {
@@ -55030,20 +55052,17 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       state.svgmodal = data;
     },
     addRoomDetailInfos: function addRoomDetailInfos(state, data) {
-      var last = state.roomdetail.infos.slice(-1);
+      var _state$roomdetail$inf;
 
-      if (last) {
-        if (last[0]['time'] != data[0]['time'] && (last[0]['msg'] != data[0]['msg'] || last[0]['userid'] != data[0]['userid'])) {
-          var _state$roomdetail$inf;
-
-          (_state$roomdetail$inf = state.roomdetail.infos).push.apply(_state$roomdetail$inf, _toConsumableArray(data));
-        }
-      } else {
-        var _state$roomdetail$inf2;
-
-        (_state$roomdetail$inf2 = state.roomdetail.infos).push.apply(_state$roomdetail$inf2, _toConsumableArray(data));
-      } // state.roomdetail.infos.push(...data);
-
+      // let last = state.roomdetail.infos.slice(-1);
+      // if (last){
+      //     if ((last[0]['time'] != data[0]['time']) && (last[0]['msg'] != data[0]['msg'] || last[0]['userid'] != data[0]['userid'])){
+      //         state.roomdetail.infos.push(...data);
+      //     }
+      // }else {
+      //     state.roomdetail.infos.push(...data);
+      // }
+      (_state$roomdetail$inf = state.roomdetail.infos).push.apply(_state$roomdetail$inf, _toConsumableArray(data));
     },
     addRoomDefatilInfosHis: function addRoomDefatilInfosHis(state, data) {
       var list = state.roomdetail.infos;
@@ -55057,6 +55076,29 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     },
     setRobotMsg: function setRobotMsg(state, data) {
       state.robotmsg.push(data);
+    },
+    //清空好友聊天
+    setFriendDetailInfos: function setFriendDetailInfos(state) {
+      state.friendDetail.infos = [];
+    },
+    //设置好友聊天信息总数
+    setFriendTotal: function setFriendTotal(state, data) {
+      state.friendDetail.total = data;
+    },
+    //设置当前好友聊天页数
+    setFriendCurrent: function setFriendCurrent(state, data) {
+      state.friendDetail.current = data;
+    },
+    //新增好友聊天信息
+    addFriendDetailInfo: function addFriendDetailInfo(state, data) {
+      var list = state.friendDetail.infos;
+      state.friendDetail.infos = data.concat(list);
+    },
+    //接受一条消息
+    addFriendDetailInfosOne: function addFriendDetailInfosOne(state, data) {
+      var _state$friendDetail$i;
+
+      (_state$friendDetail$i = state.friendDetail.infos).push.apply(_state$friendDetail$i, _toConsumableArray(data));
     }
   },
   actions: {
@@ -55217,21 +55259,52 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
         }, _callee5);
       }))();
     },
-    getRobatMess: function getRobatMess(_ref6, data) {
+    //获取好友聊天记录
+    getFriendHistory: function getFriendHistory(_ref6, data) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var commit, username, src, res, robotdata, msg;
+        var state, commit, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                commit = _ref6.commit;
+                state = _ref6.state, commit = _ref6.commit;
+                _context6.next = 3;
+                return _api_server__WEBPACK_IMPORTED_MODULE_3__["default"].RoomFriendHistory(data);
+
+              case 3:
+                res = _context6.sent;
+
+                if (res.data.data.errno === 0) {
+                  commit('addFriendDetailInfo', res.data.data.data);
+
+                  if (!state.roomdetail.total) {
+                    commit('setFriendTotal', res.data.data.total);
+                  }
+                }
+
+              case 5:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    getRobatMess: function getRobatMess(_ref7, data) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var commit, username, src, res, robotdata, msg;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                commit = _ref7.commit;
                 username = _const__WEBPACK_IMPORTED_MODULE_5__["ROBOT_NAME"];
                 src = _const__WEBPACK_IMPORTED_MODULE_5__["ROBOT_URL"];
-                _context6.next = 5;
+                _context7.next = 5;
                 return _api_server__WEBPACK_IMPORTED_MODULE_3__["default"].getRobotMessage(data);
 
               case 5:
-                res = _context6.sent;
+                res = _context7.sent;
 
                 if (res) {
                   robotdata = JSON.parse(res.data.data);
@@ -55254,10 +55327,10 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
 
               case 7:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6);
+        }, _callee7);
       }))();
     }
   }

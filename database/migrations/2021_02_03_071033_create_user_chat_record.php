@@ -16,8 +16,8 @@ class CreateUserChatRecord extends Migration
         Schema::create('user_chat_record', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->comment('用户id');
-            $table->integer('friend_id')->comment('好友id');
-            $table->integer('group_id')->comment('群聊id');
+            $table->integer('friend_id')->comment('好友id')->nullable();
+            $table->integer('group_id')->comment('群聊id')->nullable();
             $table->integer('time')->comment('时间戳,每次聊天发送信息都会更新该字段');
             $table->timestamps();
         });

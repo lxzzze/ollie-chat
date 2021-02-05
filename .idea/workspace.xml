@@ -3,23 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b722e5d2-5f18-453c-aee5-67e5de4ee0b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MessageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MessageController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SocketIOController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SocketIOController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/UserMessage.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/UserMessage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_02_03_071033_create_user_chat_record.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_02_03_071033_create_user_chat_record.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/api/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/layout/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/layout/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/pages/Chat.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/pages/Chat.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/pages/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/pages/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/pages/friendChat.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/pages/friendChat.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/websocket.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/websocket.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/laravels.conf" beforeDir="false" afterPath="$PROJECT_DIR$/storage/laravels.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/laravels.pid" beforeDir="false" afterPath="$PROJECT_DIR$/storage/laravels.pid" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -254,6 +246,8 @@
       <workItem from="1611833033108" duration="1459000" />
       <workItem from="1612234148337" duration="14304000" />
       <workItem from="1612316837882" duration="14527000" />
+      <workItem from="1612400746705" duration="458000" />
+      <workItem from="1612505444212" duration="5160000" />
     </task>
     <servers />
   </component>

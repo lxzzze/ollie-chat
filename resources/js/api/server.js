@@ -9,6 +9,10 @@ const Service = {
     RoomHistoryAll: data => Axios.get('/history/message', {
         params: data
     }),
+    //获取与当前好友历史聊天记录
+    RoomFriendHistory: data => Axios.get('/history/friendMessage',{
+        params: data
+    }),
     // 机器人
     getRobotMessage: data => Axios.get('/robot', {
         params: data

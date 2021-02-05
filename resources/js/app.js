@@ -92,6 +92,17 @@ socket.on('message', function (obj) {
     }
 });
 
+socket.on('friendMessage', function (obj) {
+    store.commit('addFriendDetailInfosOne', [obj]);
+    if (Notification.permission === "granted") {
+        popNotice(obj);
+    } else if (Notification.permission !== "denied") {
+        Notification.requestPermission(function (permission) {
+            popNotice(obj);
+        });
+    }
+});
+
 document.addEventListener('touchstart', (e) => {
     if (e.target.className.indexOf('emoji') > -1 || e.target.parentNode.className.indexOf('emoji') > -1) {
         store.commit('setEmoji', true);
