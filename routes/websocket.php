@@ -59,7 +59,9 @@ WebsocketProxy::on('login', function (WebSocket $websocket, $data) {
         //user_id--->fd
         Redis::set('chat_userId_'.$user->id,$websocket->getSender());
     } else {
-        $websocket->emit('login', '登录后才能进入聊天室');
+//        $websocket->emit('login', '登录后才能进入聊天室');
+        $websocket->emitOne('login','登录后才能进入聊天室',$websocket->getSender());
+
     }
 });
 
@@ -94,7 +96,8 @@ WebsocketProxy::on('room', function (WebSocket $websocket, $data) {
         emitToRoom($websocket,$roomId,'room',$onlineUsers);
 
     } else {
-        $websocket->emit('login', '登录后才能进入聊天室');
+//        $websocket->emit('login', '登录后才能进入聊天室');
+        $websocket->emitOne('login','登录后才能进入聊天室',$websocket->getSender());
     }
 });
 
@@ -122,7 +125,8 @@ function roomout(WebSocket $websocket, $data) {
         //给房间中所有人发送,当前在线人数
         emitToRoom($websocket,$roomId,'room',$onlineUsers);
     } else {
-        $websocket->emit('login', '登录后才能进入聊天室');
+//        $websocket->emit('login', '登录后才能进入聊天室');
+        $websocket->emitOne('login','登录后才能进入聊天室',$websocket->getSender());
     }
 }
 
@@ -160,10 +164,29 @@ WebsocketProxy::on('message', function (WebSocket $websocket, $data) {
         //广播给所有在房间的用户
         emitToRoom($websocket,$roomId,'message',$messageData);
     } else {
-        $websocket->emit('login', '登录后才能进入聊天室');
+//        $websocket->emit('login', '登录后才能进入聊天室');
+        $websocket->emitOne('login','登录后才能进入聊天室',$websocket->getSender());
+
     }
 });
 
+WebsocketProxy::on('friendChat',function (Websocket $websocket,$data){
+    if (!empty($data['api_token']) && ($user = User::where('api_token', $data['api_token'])->first())) {
+        if (empty($data['friendId'])){
+            return;
+        }
+        $user_fd = Redis::get('chat_userId_'.$data['friendId']);
+        if ($user_fd){
+            $status = '对方在线';
+        }else{
+            $status = '对方离线';
+        }
+        $websocket->emitOne('friendChat',$status,$websocket->getSender());
+
+    }else{
+        $websocket->emitOne('login','登录后才能进入聊天室',$websocket->getSender());
+    }
+});
 
 WebsocketProxy::on('friendMessage',function (Websocket $websocket,$data) {
     if (!empty($data['api_token']) && ($user = User::where('api_token', $data['api_token'])->first())) {
@@ -204,15 +227,18 @@ WebsocketProxy::on('friendMessage',function (Websocket $websocket,$data) {
             ['user_id'=>$data['friendId'],'friend_id'=>$user->id],
             ['time'=>time()]
         );
-        //发送给自己
-        $websocket->to($websocket->getSender())->emit('friendMessage',$messageData);
+        $websocket->emitOne('friendMessage',$messageData,$websocket->getSender());
+
         //判断用户是否在线,若在线则发送消息
         $user_fd = Redis::get('chat_userId_'.$data['friendId']);
         if ($user_fd){
-            $websocket->to($user_fd)->emit('friendMessage',$messageData);
+            $websocket->emitOne('friendMessage',$messageData,$user_fd);
+//            $websocket->to($user_fd)->emit('friendMessage',$messageData);
         }
     } else {
-        $websocket->emit('login', '登录后才能进入聊天室');
+//        $websocket->emit('login', '登录后才能进入聊天室');
+        $websocket->emitOne('login','登录后才能进入聊天室',$websocket->getSender());
+
     };
 });
 
@@ -225,7 +251,8 @@ function emitToRoom(WebSocket $websocket,$roomId,$event,$data)
         foreach ($all as $user_id){
             $fd = Redis::get('chat_userId_'.$user_id);
             if ($fd){
-                $websocket->to($fd)->emit($event,$data);
+                $websocket->emitOne($event,$data,$fd);
+//                $websocket->to($fd)->emit($event,$data);
             }
         }
     }

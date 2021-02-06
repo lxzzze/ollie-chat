@@ -62,7 +62,10 @@ export default {
           this.getSvgModal.$root.$options.clear();
           this.$store.commit("setSvgModal", null);
           this.$router.push({ path: "/" });
-          socket.emit("login", { name });
+          socket.emit("login", {
+              name: res.data.data.email,
+              api_token: res.data.data.api_token
+          });
         } else {
           Alert({
             content: '请输入正确的账号密码'

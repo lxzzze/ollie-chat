@@ -7,7 +7,8 @@
                         <mu-icon value="chevron_left"></mu-icon>
                     </mu-button>
                     <div class="center">
-                        聊天({{Object.keys(getUsers).length}})
+                        {{ getFriendStatus }}
+<!--                        聊天({{Object.keys(getUsers).length}})-->
                     </div>
                     <mu-button icon slot="right" @click="">
                         <mu-icon value="people"></mu-icon>
@@ -153,14 +154,13 @@
             const obj = {
                 name: this.userid,
                 src: this.src,
-                roomid: this.friendId,
+                friendId: this.friendId,
                 api_token: this.token
             };
-            // socket.emit('room', obj);
-            //
-            // socket.on('room', function (obj) {
-            //     that.$store.commit('setUsers', obj);
-            // });
+            socket.emit('friendChat', obj);
+            socket.on('friendChat', function (obj) {
+                that.$store.commit('setFriendStatus', obj);
+            });
             // socket.on('roomout', function (obj) {
             //     that.$store.commit('setUsers', obj);
             // });
@@ -288,10 +288,10 @@
         computed: {
             ...mapGetters([
                 'getEmoji',
-                'getUsers',
                 'getFriendInfo',
                 'getFriendCurrent',
-                'getFriendTotal'
+                'getFriendTotal',
+                'getFriendStatus',
             ]),
             ...mapState([
                 'isbind'

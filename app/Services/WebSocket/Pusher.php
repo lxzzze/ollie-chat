@@ -255,7 +255,6 @@ class Pusher
         if ($this->shouldBroadcast()) {
             $this->addDescriptors($this->getWebsocketConnections());
         }
-
         // push message to designated fds
         foreach ($this->descriptors as $descriptor) {
             if ($this->shouldPushToDescriptor($descriptor)) {
@@ -263,4 +262,5 @@ class Pusher
             }
         }
     }
+
 }

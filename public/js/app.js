@@ -3674,7 +3674,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
 
                   _socket__WEBPACK_IMPORTED_MODULE_5__["default"].emit("login", {
-                    name: name
+                    name: res.data.data.email,
+                    api_token: res.data.data.api_token
                   });
                 } else {
                   Object(_components_Alert__WEBPACK_IMPORTED_MODULE_2__["default"])({
@@ -4156,6 +4157,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -4249,14 +4251,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               obj = {
                 name: _this2.userid,
                 src: _this2.src,
-                roomid: _this2.friendId,
+                friendId: _this2.friendId,
                 api_token: _this2.token
-              }; // socket.emit('room', obj);
-              //
-              // socket.on('room', function (obj) {
-              //     that.$store.commit('setUsers', obj);
-              // });
-              // socket.on('roomout', function (obj) {
+              };
+              _socket__WEBPACK_IMPORTED_MODULE_13__["default"].emit('friendChat', obj);
+              _socket__WEBPACK_IMPORTED_MODULE_13__["default"].on('friendChat', function (obj) {
+                that.$store.commit('setFriendStatus', obj);
+              }); // socket.on('roomout', function (obj) {
               //     that.$store.commit('setUsers', obj);
               // });
 
@@ -4343,7 +4344,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 e.stopPropagation();
               });
 
-            case 12:
+            case 14:
             case "end":
               return _context4.stop();
           }
@@ -4439,10 +4440,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     }
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getEmoji', // 'getInfos',
-  'getUsers', // 'getCurrent',
-  // 'getTotal',
-  'getFriendInfo', 'getFriendCurrent', 'getFriendTotal'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['isbind'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
+  computed: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getEmoji', 'getFriendInfo', 'getFriendCurrent', 'getFriendTotal', 'getFriendStatus'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['isbind'])), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
     userid: function userid(state) {
       return state.userInfo.userid;
     },
@@ -34524,9 +34522,9 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "center" }, [
                 _vm._v(
-                  "\n                    聊天(" +
-                    _vm._s(Object.keys(_vm.getUsers).length) +
-                    ")\n                "
+                  "\n                        " +
+                    _vm._s(_vm.getFriendStatus) +
+                    "\n"
                 )
               ]),
               _vm._v(" "),
@@ -54957,6 +54955,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       current: 1,
       total: 0
     },
+    //好友状态
+    friendStatus: '',
     // 存放机器人开场白
     robotmsg: [{
       username: _const__WEBPACK_IMPORTED_MODULE_5__["ROBOT_NAME"],
@@ -55016,6 +55016,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
     },
     getFriendTotal: function getFriendTotal(state) {
       return state.friendDetail.total;
+    },
+    getFriendStatus: function getFriendStatus(state) {
+      return state.friendStatus;
     }
   },
   mutations: {
@@ -55099,6 +55102,10 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       var _state$friendDetail$i;
 
       (_state$friendDetail$i = state.friendDetail.infos).push.apply(_state$friendDetail$i, _toConsumableArray(data));
+    },
+    //设置好友状态
+    setFriendStatus: function setFriendStatus(state, data) {
+      state.friendStatus = data;
     }
   },
   actions: {

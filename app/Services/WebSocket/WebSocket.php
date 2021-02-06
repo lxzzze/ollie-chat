@@ -4,6 +4,7 @@ namespace App\Services\WebSocket;
 use App\Services\Websocket\Rooms\RoomContract;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use phpDocumentor\Reflection\Types\Boolean;
 use Swoole\WebSocket\Server;
 
 class WebSocket
@@ -169,6 +170,25 @@ class WebSocket
 
         $this->reset();
 
+        return true;
+    }
+
+    /**
+     * Notes:发送给指定fd一条信息
+     * @param string $event
+     * @param $data
+     * @param $fd
+     * @return bool
+     */
+    public function emitOne(string $event,$data,$fd)
+    {
+        if (empty($fd)) {
+            return false;
+        }
+        $server = app('swoole');
+        $parser = app('swoole.parser');
+        $payload = $parser->encode($event,$data);
+        $server->push($fd,$payload,1);
         return true;
     }
 

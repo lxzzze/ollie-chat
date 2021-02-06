@@ -38,6 +38,8 @@ const store = new Vuex.Store({
             current:1,
             total:0
         },
+        //好友状态
+        friendStatus:'',
         // 存放机器人开场白
         robotmsg: [{
                 username: ROBOT_NAME,
@@ -85,7 +87,8 @@ const store = new Vuex.Store({
         getEmoji: state => state.emojiShow,
         getFriendInfo: state => state.friendDetail.infos,
         getFriendCurrent:state => state.friendDetail.current,
-        getFriendTotal:state => state.friendDetail.total
+        getFriendTotal:state => state.friendDetail.total,
+        getFriendStatus:state => state.friendStatus,
     },
     mutations: {
         setTotal(state, value) {
@@ -166,6 +169,10 @@ const store = new Vuex.Store({
         //接受一条消息
         addFriendDetailInfosOne(state,data){
             state.friendDetail.infos.push(...data);
+        },
+        //设置好友状态
+        setFriendStatus(state,data){
+            state.friendStatus = data;
         }
     },
     actions: {
